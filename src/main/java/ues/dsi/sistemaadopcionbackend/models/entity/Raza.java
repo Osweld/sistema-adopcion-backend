@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "generos")
+@Table(name = "razas")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Genero implements Serializable {
+public class Raza implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -22,8 +22,11 @@ public class Genero implements Serializable {
     private Long id;
 
     @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(min = 1, max = 20, message = "El nombre debe tener entre 1 y 20 caracteres")
-    @Column(name = "nombre", length = 20, nullable = false)
+    @Size(min = 1, max = 40, message = "El nombre debe tener entre 1 y 40 caracteres")
+    @Column(name = "nombre", length = 40, nullable = false)
     private String nombre;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "id_especie", nullable = false)
+    private Especie especie;
 }
