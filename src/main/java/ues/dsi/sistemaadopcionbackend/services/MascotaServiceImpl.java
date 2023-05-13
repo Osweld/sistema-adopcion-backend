@@ -3,9 +3,12 @@ package ues.dsi.sistemaadopcionbackend.services;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
 import ues.dsi.sistemaadopcionbackend.models.repository.MascotaRepository;
 
+@Service
 public class MascotaServiceImpl implements MascotaService{
 
     private final MascotaRepository mascotaRepository;
@@ -16,11 +19,13 @@ public class MascotaServiceImpl implements MascotaService{
 
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Mascota> getAllMascotas(Pageable pageable) {
         return mascotaRepository.findAll(pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Mascota> getAllMascotasByGenero(Long idGenero, Pageable pageable) {
         if (idGenero == null)
             throw new IllegalArgumentException("El argumento idGenero no puede ser nulo");
@@ -28,6 +33,7 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Mascota> getAllMascotasByRaza(Long idRaza, Pageable pageable) {
         if (idRaza == null)
             throw new IllegalArgumentException("El argumento idRaza no puede ser nulo");
@@ -35,6 +41,7 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Mascota> getAllMascotasByEspecie(Long idEspecie, Pageable pageable) {
         if (idEspecie == null)
             throw new IllegalArgumentException("El argumento idEspecie no puede ser nulo");
@@ -42,16 +49,19 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Mascota getMascotaById(Long idMascota) {
         return mascotaRepository.findById(idMascota).orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada con el ID proporcionado: "+idMascota));
     }
 
     @Override
+    @Transactional
     public Mascota createMascota(Mascota mascota) {
         return mascotaRepository.save(mascota);
     }
 
     @Override
+    @Transactional
     public Mascota editMascota(Long idMascota, Mascota mascota) {
         if(idMascota == null || mascota == null){
             throw new IllegalArgumentException("Los argumentos idMascota y mascota no pueden ser nulos");
@@ -72,6 +82,7 @@ public class MascotaServiceImpl implements MascotaService{
     }
 
     @Override
+    @Transactional
     public Mascota deleteMascotaById(Long idMascota) {
         if (idMascota == null) {
             throw new IllegalArgumentException("El argumento idMascota no puede ser nulo");
