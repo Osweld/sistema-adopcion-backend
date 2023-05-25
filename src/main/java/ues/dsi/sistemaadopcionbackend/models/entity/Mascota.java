@@ -33,10 +33,6 @@ public class Mascota {
     @Column(name = "color", length = 60)
     private String color;
 
-    @Size(min = 1, max = 250, message = "El estado de salud debe tener entre 1 y 250 caracteres")
-    @Column(name = "estado_salud", length = 250)
-    private String estadoSalud;
-
     @Size(min = 1, max = 250, message = "La descripción debe tener entre 1 y 250 caracteres")
     @Column(name = "descripcion", length = 250, nullable = true)
     private String descripcion;
@@ -49,7 +45,11 @@ public class Mascota {
     @JoinColumn(name = "id_especie", nullable = false)
     private Especie especie;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false )
     @JoinColumn(name = "id_raza", nullable = false)
     private Raza raza;
+
+    @ManyToOne(optional = false )
+    @JoinColumn(name = "id_estado_salud", nullable = false)
+    private EstadoSalud estadoSalud;
 }

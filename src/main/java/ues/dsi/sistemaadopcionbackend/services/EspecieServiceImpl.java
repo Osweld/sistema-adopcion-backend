@@ -1,8 +1,10 @@
 package ues.dsi.sistemaadopcionbackend.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ues.dsi.sistemaadopcionbackend.exceptions.DuplicateEntityException;
 import ues.dsi.sistemaadopcionbackend.models.entity.Especie;
 import ues.dsi.sistemaadopcionbackend.models.repository.EspecieRepository;
 
@@ -33,7 +35,10 @@ public class EspecieServiceImpl implements EspecieService{
     @Override
     @Transactional()
     public Especie createEspecie(Especie especie) {
+        if(especieRepository.existsByNombreIgnoreCase(especie.getNombre()))
+            throw new DuplicateEntityException("Ya existe una especie con ese nombre: "+especie.getNombre());
         return especieRepository.save(especie);
+
     }
 
     @Override
