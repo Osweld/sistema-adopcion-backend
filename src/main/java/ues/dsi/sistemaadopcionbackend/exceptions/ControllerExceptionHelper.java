@@ -36,10 +36,12 @@ public class ControllerExceptionHelper {
     @ExceptionHandler(value = {DataIntegrityViolationException.class})
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
-        String errorMessage = "Hubo un error al procesar tu solicitud debido a un problema con los datos que proporcionaste.";
-        return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), errorMessage, request.getDescription(false)), status);
+
+        return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), ex.getMessage(), request.getDescription(false)), status);
     }
 
+
+    //HttpMessageNotReadableException
 
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
