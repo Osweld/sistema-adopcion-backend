@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,7 +14,8 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Mascota {
+public class Mascota implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,10 @@ public class Mascota {
     @Column(name = "descripcion", length = 250, nullable = true)
     private String descripcion;
 
+
+    @Column(name = "foto_principal", length = 200, nullable = true)
+    private String fotoPrincipal;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_genero", nullable = false)
     private Genero genero;
@@ -52,4 +58,9 @@ public class Mascota {
     @ManyToOne(optional = false )
     @JoinColumn(name = "id_estado_salud", nullable = false)
     private EstadoSalud estadoSalud;
+
+
+    public Mascota(Long id) {
+        this.id = id;
+    }
 }

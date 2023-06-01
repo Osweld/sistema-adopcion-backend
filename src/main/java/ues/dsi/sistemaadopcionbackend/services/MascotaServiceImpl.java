@@ -5,16 +5,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import ues.dsi.sistemaadopcionbackend.cloudinary.FileUpload;
+import ues.dsi.sistemaadopcionbackend.models.entity.Foto;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
+import ues.dsi.sistemaadopcionbackend.models.repository.FotoRepository;
 import ues.dsi.sistemaadopcionbackend.models.repository.MascotaRepository;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MascotaServiceImpl implements MascotaService{
 
     private final MascotaRepository mascotaRepository;
+    private final FotoRepository fotoRepository;
+    private final FileUpload fileUpload;
 
-    public MascotaServiceImpl(MascotaRepository mascotaRepository) {
+    public MascotaServiceImpl(MascotaRepository mascotaRepository, FotoRepository fotoRepository, FileUpload fileUpload) {
         this.mascotaRepository = mascotaRepository;
+        this.fotoRepository = fotoRepository;
+        this.fileUpload = fileUpload;
     }
 
 
@@ -91,5 +104,50 @@ public class MascotaServiceImpl implements MascotaService{
                 new EntityNotFoundException("Mascota no encontrada con el ID proporcionado: " + idMascota));
         mascotaRepository.delete(mascota);
         return mascota;
+    }
+
+    @Override
+    @Transactional
+    public List<Foto> saveMascotaPhotos(Long idMascota,MultipartFile[] multipartFiles) throws IOException {
+        // Validar si el array multipartFiles no está vacío
+        if (multipartFiles == null || multipartFiles.length == 0) {
+            throw new IllegalArgumentException("No se encontraron fotos");
+        }
+
+        // Validar si la mascota existe en la base de datos
+        Optional<Mascota> optionalMascota = mascotaRepository.findById(idMascota);
+        if (!optionalMascota.isPresent()) {
+            throw new IllegalArgumentException("Mascota no encontrada con el ID proporcionado: " + idMascota);
+        }
+        Mascota mascota = optionalMascota.get();
+
+        List<Foto> fotos = new ArrayList<>();
+        for(MultipartFile uploadFoto: multipartFiles){
+            // Verificar si el archivo no está vacío
+            if (!uploadFoto.isEmpty()) {
+                Foto foto = new Foto();
+                foto.setLink(fileUpload.uploadFile(uploadFoto));
+                foto.setMascota(mascota);
+                fotos.add(foto);
+            }
+        }
+        return fotoRepository.saveAll(fotos);
+    }
+
+    @Override
+    @Transactional
+    public Mascota saveMascotaPhotoPerfil(Long idMascota, MultipartFile multipartFile) throws IOException {
+
+        if(multipartFile == null) throw new IllegalArgumentException("No se encontraro la foto");
+
+        Optional<Mascota> optionalMascota = mascotaRepository.findById(idMascota);
+        if (!optionalMascota.isPresent()) {
+            throw new IllegalArgumentException("Mascota no encontrada con el ID proporcionado: " + idMascota);
+        }
+        Mascota mascota = optionalMascota.get();
+
+        mascota.setFotoPrincipal(fileUpload.uploadFile(multipartFile));
+
+        return mascotaRepository.save(mascota);
     }
 }

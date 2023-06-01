@@ -8,8 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ues.dsi.sistemaadopcionbackend.models.entity.Foto;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
 import ues.dsi.sistemaadopcionbackend.services.MascotaService;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/mascotas")
@@ -57,6 +62,16 @@ public class MascotaController {
     @PostMapping("")
     ResponseEntity<Mascota> createMascota(@Valid @RequestBody Mascota mascota){
         return new ResponseEntity<>(mascotaService.createMascota(mascota),HttpStatus.CREATED);
+    }
+
+    @PostMapping("fotos/{idMascota}")
+    ResponseEntity<List<Foto>> uploadPhotos(@PathVariable Long idMascota, MultipartFile[] multipartFiles) throws IOException {
+        return new ResponseEntity<>(mascotaService.saveMascotaPhotos(idMascota,multipartFiles),HttpStatus.CREATED);
+    }
+
+    @PostMapping("foto-perfil/{idMascota}")
+    ResponseEntity<Mascota> Perfil(@PathVariable Long idMascota, MultipartFile multipartFiles) throws IOException {
+        return new ResponseEntity<>(mascotaService.saveMascotaPhotoPerfil(idMascota,multipartFiles),HttpStatus.CREATED);
     }
 
     @PutMapping("/{idMascota}")
