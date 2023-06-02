@@ -13,7 +13,7 @@ public interface UsuarioService {
     Page<Usuario> getAllUsuariosByRol(Long idRol,Pageable pageable);
     Page<Usuario> searchUsuarioByNombres(String nombres, Pageable pageable);
     Usuario getUsuarioById(Long idUsuario);
-    Usuario getUsuarioByNumDui(String numeroDui);
+    Usuario getUsuarioByNumeroDui(String numeroDui);
     Usuario getUsuarioByUsername(String username);
     Boolean getExistsUsuarioByUsername(String username);
     Usuario createUsuario(Usuario usuario);

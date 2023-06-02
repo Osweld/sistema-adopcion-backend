@@ -11,10 +11,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Page<Usuario> findAllByGeneroId(Long idGenero, Pageable pageable);
     Page<Usuario> findAllByRolId(Long idRol, Pageable pageable);
-    Page<Usuario> findUsuariosByNombreIgnoreCase(String nombres,Pageable pageable);
-    Usuario findUsuarioByNumDui(String numeroDui);
-    Boolean existsUsuarioByNumDui(String numeroDui);
+    Page<Usuario> findUsuariosByNombresIgnoreCase(String nombres,Pageable pageable);
+    Usuario findUsuarioByNumeroDui(String numeroDui);
+    Boolean existsUsuarioByNumeroDui(String numeroDui);
     Usuario findUsuarioByUsername(String username);
     Boolean existsUsuarioByUsername(String username);
+
 
 }

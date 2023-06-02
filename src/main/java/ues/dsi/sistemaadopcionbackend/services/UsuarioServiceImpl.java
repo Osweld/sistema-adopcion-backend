@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     public Page<Usuario> searchUsuarioByNombres(String nombres, Pageable pageable) {
         if (nombres == null)
             throw new IllegalArgumentException("El argumento nombre no puede ser nulo");
-        return usuarioRepository.findUsuariosByNombreIgnoreCase(nombres, pageable);
+        return usuarioRepository.findUsuariosByNombresIgnoreCase(nombres, pageable);
     }
 
     @Override
@@ -58,10 +58,10 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     @Transactional(readOnly = true)
-    public Usuario getUsuarioByNumDui(String numeroDui) {
+    public Usuario getUsuarioByNumeroDui(String numeroDui) {
         if (numeroDui == null)
             throw new IllegalArgumentException("El argumento numero de Dui no puede ser nulo");
-        return usuarioRepository.findUsuarioByNumDui(numeroDui);
+        return usuarioRepository.findUsuarioByNumeroDui(numeroDui);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         if(usuario == null){
             throw new IllegalArgumentException("El argumento usuario no puede ser nulo");
         }
-        if(usuarioRepository.existsUsuarioByNumDui(usuario.getNumeroDui())) {
+        if(usuarioRepository.existsUsuarioByNumeroDui(usuario.getNumeroDui())) {
             throw new UniqueValidationException("Ya existe el usuario con el número de identificación ingresado");
         }
         if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername())){
@@ -107,7 +107,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         if(usuario.getApellidos() != null) usuarioDB.setApellidos(usuario.getApellidos());
         if(usuario.getFechaNacimiento() != null) usuarioDB.setFechaNacimiento(usuario.getFechaNacimiento());
         if(usuario.getNumeroDui() != null) {
-            if(usuarioRepository.existsUsuarioByNumDui(usuario.getNumeroDui())) {
+            if(usuarioRepository.existsUsuarioByNumeroDui(usuario.getNumeroDui())) {
                 throw new UniqueValidationException("Ya existe el usuario con el número de identificación ingresado");
             }
             usuarioDB.setNumeroDui(usuario.getNumeroDui());

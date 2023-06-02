@@ -56,13 +56,13 @@ public class Usuario implements Serializable {
     private String telefono;
 
     @NotBlank(message = "El username no puede estar vacío")
-    @Size(min = 8, max = 20, message = "El username debe tener entre 8 y 20 caracteres")
-    @Column(name = "username", length = 20, nullable = false)
+    @Size(min = 5, max = 15, message = "El username debe tener entre 5 y 15 caracteres")
+    @Column(name = "username", length = 15, nullable = false)
     private String username;
 
     @NotBlank(message = "El password no puede estar vacío")
-    @Size(min = 8, max = 25, message = "El password debe tener entre 8 y 25 caracteres")
-    @Column(name = "password", length = 25, nullable = false)
+    @Size(min = 8, max = 20, message = "El password debe tener entre 8 y 20 caracteres")
+    @Column(name = "password", length = 20, nullable = false)
     private String password;
 
     @ManyToOne(optional = false)

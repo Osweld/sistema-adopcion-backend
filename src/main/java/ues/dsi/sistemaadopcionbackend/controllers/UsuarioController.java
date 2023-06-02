@@ -55,7 +55,7 @@ public class UsuarioController {
 
     @GetMapping("/identidad/{numDui}")
     ResponseEntity<Usuario> findByNoIdentidad(@PathVariable String numDui) {
-            return new ResponseEntity(usuarioService.getUsuarioByNumDui(numDui), HttpStatus.OK);
+            return new ResponseEntity(usuarioService.getUsuarioByNumeroDui(numDui), HttpStatus.OK);
     }
 
     @GetMapping("/username/{username}")
