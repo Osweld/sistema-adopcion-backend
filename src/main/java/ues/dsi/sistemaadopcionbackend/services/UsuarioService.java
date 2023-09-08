@@ -2,6 +2,7 @@ package ues.dsi.sistemaadopcionbackend.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 
 import java.io.IOException;
@@ -17,6 +18,6 @@ public interface UsuarioService {
     Usuario getUsuarioByUsername(String username);
     Boolean getExistsUsuarioByUsername(String username);
     Usuario createUsuario(Usuario usuario);
-    Usuario editUsuario(Long idUsuario,Usuario usuario);
+    Usuario editUsuario(Long idUsuario, UsuarioDTO usuario);
     Usuario deleteUsuarioById(Long idUsuario);
 }

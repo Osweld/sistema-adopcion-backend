@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.services.UsuarioService;
 
@@ -75,7 +76,7 @@ public class UsuarioController {
 
     @PutMapping("/{idUsuario}")
     ResponseEntity<Usuario> editUsuario(@PathVariable Long idUsuario,
-                                        @Valid @RequestBody Usuario usuario){
+                                        @Valid @RequestBody UsuarioDTO usuario){
         return new ResponseEntity<>(usuarioService.editUsuario(idUsuario,usuario),HttpStatus.OK);
     }
 

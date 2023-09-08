@@ -65,12 +65,12 @@ public class MascotaController {
     }
 
     @PostMapping("fotos/{idMascota}")
-    ResponseEntity<List<Foto>> uploadPhotos(@PathVariable Long idMascota, MultipartFile[] multipartFiles) throws IOException {
+    ResponseEntity<List<Foto>> uploadPhotos(@PathVariable Long idMascota,@RequestPart(name = "imagenes") MultipartFile[] multipartFiles) throws IOException {
         return new ResponseEntity<>(mascotaService.saveMascotaPhotos(idMascota,multipartFiles),HttpStatus.CREATED);
     }
 
     @PostMapping("foto-perfil/{idMascota}")
-    ResponseEntity<Mascota> Perfil(@PathVariable Long idMascota, MultipartFile multipartFiles) throws IOException {
+    ResponseEntity<Mascota> Perfil(@PathVariable Long idMascota,@RequestPart(name = "imagen") MultipartFile multipartFiles) throws IOException {
         return new ResponseEntity<>(mascotaService.saveMascotaPhotoPerfil(idMascota,multipartFiles),HttpStatus.CREATED);
     }
 

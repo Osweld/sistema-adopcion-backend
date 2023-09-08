@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.exceptions.UniqueValidationException;
+import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.models.repository.UsuarioRepository;
 
@@ -92,12 +93,13 @@ public class UsuarioServiceImpl implements UsuarioService{
         if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername())){
             throw new UniqueValidationException("Ya existe el usuario con el username ingresado");
         }
+
         return usuarioRepository.save(usuario);
     }
 
     @Override
     @Transactional
-    public Usuario editUsuario(Long idUsuario, Usuario usuario) {
+    public Usuario editUsuario(Long idUsuario, UsuarioDTO usuario) {
         if(idUsuario == null || usuario == null){
             throw new IllegalArgumentException("Los argumentos idUsuario y usuario no pueden ser nulos");
         }
@@ -107,7 +109,7 @@ public class UsuarioServiceImpl implements UsuarioService{
         if(usuario.getApellidos() != null) usuarioDB.setApellidos(usuario.getApellidos());
         if(usuario.getFechaNacimiento() != null) usuarioDB.setFechaNacimiento(usuario.getFechaNacimiento());
         if(usuario.getNumeroDui() != null) {
-            if(usuarioRepository.existsUsuarioByNumeroDui(usuario.getNumeroDui())) {
+            if(usuarioRepository.existsUsuarioByNumeroDui(usuario.getNumeroDui() ) && !usuarioDB.getNumeroDui().equals(usuario.getNumeroDui())) {
                 throw new UniqueValidationException("Ya existe el usuario con el número de identificación ingresado");
             }
             usuarioDB.setNumeroDui(usuario.getNumeroDui());
@@ -116,12 +118,12 @@ public class UsuarioServiceImpl implements UsuarioService{
         if(usuario.getEmail() != null) usuarioDB.setEmail(usuario.getEmail());
         if(usuario.getTelefono() != null) usuarioDB.setTelefono(usuario.getTelefono());
         if(usuario.getUsername() != null) {
-            if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername())){
+            if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername()) && !usuarioDB.getUsername().equals(usuario.getUsername())){
                 throw new UniqueValidationException("Ya existe el usuario con el username ingresado");
             }
             usuarioDB.setUsername(usuario.getUsername());
         }
-        if(usuario.getPassword() != null) usuarioDB.setPassword(usuario.getPassword());
+       // if(usuario.getPassword() != null) usuarioDB.setPassword(usuario.getPassword());
         if(usuario.getRol() != null) usuarioDB.setRol(usuario.getRol());
         if(usuario.getGenero() != null) usuarioDB.setGenero(usuario.getGenero());
 
