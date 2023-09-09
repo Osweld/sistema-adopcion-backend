@@ -1,6 +1,7 @@
 package ues.dsi.sistemaadopcionbackend.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -63,6 +64,7 @@ public class Usuario implements Serializable {
     @NotBlank(message = "El password no puede estar vacío")
     @Size(min = 8, max = 20, message = "El password debe tener entre 8 y 20 caracteres")
     @Column(name = "password", length = 20, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToOne(optional = false)
