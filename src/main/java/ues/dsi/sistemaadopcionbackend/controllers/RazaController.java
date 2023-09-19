@@ -24,6 +24,11 @@ public class RazaController {
         return new ResponseEntity<>(razaService.getAllRazas(), HttpStatus.OK);
     }
 
+    @GetMapping("/especie/{idEspecie}")
+    ResponseEntity<List<Raza>> getRazaByEspecieId(@PathVariable Long idEspecie){
+        return new ResponseEntity<>(razaService.getAllRazasByEspecieId(idEspecie),HttpStatus.OK);
+    }
+
     @GetMapping("/{idRaza}")
     ResponseEntity<Raza> getRazaById(@PathVariable Long idRaza){
         return new ResponseEntity<>(razaService.getRazaById(idRaza),HttpStatus.OK);

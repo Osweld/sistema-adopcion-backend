@@ -7,6 +7,7 @@ import java.util.List;
 public interface RazaService {
 
     List<Raza> getAllRazas();
+    List<Raza> getAllRazasByEspecieId(Long IdEspecie);
     Raza getRazaById(Long idRaza);
     Raza createRaza(Raza raza);
     Raza editRaza(Long idRaza,Raza raza);
