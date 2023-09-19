@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RazaRepository extends JpaRepository<Raza, Long> {
 
-    public List<Raza> findAllByEspecieId(Long id);
+    List<Raza> findAllByEspecieId(Long id);
 }
