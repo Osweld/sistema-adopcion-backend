@@ -121,6 +121,9 @@ public class MascotaServiceImpl implements MascotaService{
         }
         Mascota mascota = optionalMascota.get();
 
+        List<Foto> fotosDB = getMascotaPhotos(idMascota);
+        fotoRepository.deleteAll(fotosDB);
+
         List<Foto> fotos = new ArrayList<>();
         for(MultipartFile uploadFoto: multipartFiles){
             // Verificar si el archivo no está vacío
@@ -146,8 +149,16 @@ public class MascotaServiceImpl implements MascotaService{
         }
         Mascota mascota = optionalMascota.get();
 
+
         mascota.setFotoPrincipal(fileUpload.uploadFile(multipartFile));
 
         return mascotaRepository.save(mascota);
+    }
+
+    @Override
+    public List<Foto> getMascotaPhotos(Long idMascota) {
+        if (idMascota == null)
+            throw new IllegalArgumentException("El argumento idMascota no puede ser nulo");
+        return fotoRepository.findAllByMascotaId(idMascota);
     }
 }

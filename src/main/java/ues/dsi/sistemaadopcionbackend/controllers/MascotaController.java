@@ -85,5 +85,9 @@ public class MascotaController {
         return new ResponseEntity<>(mascotaService.deleteMascotaById(idMascota),HttpStatus.OK);
     }
 
+    @GetMapping("/fotos/{idMascota}")
+    ResponseEntity<List<Foto>> getFotosByMascotaById(@PathVariable Long idMascota){
+        return new ResponseEntity<>(mascotaService.getMascotaPhotos(idMascota),HttpStatus.OK);
+    }
 
 }
