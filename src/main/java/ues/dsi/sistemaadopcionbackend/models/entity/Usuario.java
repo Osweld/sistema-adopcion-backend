@@ -62,9 +62,9 @@ public class Usuario implements Serializable {
     private String username;
 
     @NotBlank(message = "El password no puede estar vacío")
-    @Size(min = 8, max = 20, message = "El password debe tener entre 8 y 20 caracteres")
+    @Size(min = 8, max = 60, message = "El password debe tener entre 8 y 60 caracteres")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(name = "password", length = 20, nullable = false)
+    @Column(name = "password", length = 60, nullable = false)
     private String password;
 
     @ManyToOne(optional = false)

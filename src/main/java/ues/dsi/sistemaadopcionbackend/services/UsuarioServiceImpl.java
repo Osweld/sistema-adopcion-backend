@@ -3,6 +3,7 @@ package ues.dsi.sistemaadopcionbackend.services;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.exceptions.UniqueValidationException;
@@ -10,15 +11,15 @@ import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.models.repository.UsuarioRepository;
 
-import java.util.List;
-
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
 
     private final UsuarioRepository usuarioRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, BCryptPasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -93,6 +94,10 @@ public class UsuarioServiceImpl implements UsuarioService{
         if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername())){
             throw new UniqueValidationException("Ya existe el usuario con el username ingresado");
         }
+
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+
 
         return usuarioRepository.save(usuario);
     }
