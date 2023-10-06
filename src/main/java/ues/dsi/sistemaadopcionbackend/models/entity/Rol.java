@@ -26,5 +26,9 @@ public class Rol implements Serializable {
     @Size(min = 1, max = 20, message = "El nombre debe tener entre 1 y 20 caracteres")
     @Column(name = "nombre", length = 20, nullable = false)
     private String nombre;
+
+    public Rol(long id) {
+        this.id = id;
+    }
 }
 

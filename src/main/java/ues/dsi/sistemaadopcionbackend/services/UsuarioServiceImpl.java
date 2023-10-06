@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.exceptions.UniqueValidationException;
 import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
+import ues.dsi.sistemaadopcionbackend.models.entity.Rol;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.models.repository.UsuarioRepository;
 
@@ -100,6 +101,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
         return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    @Transactional()
+    public Usuario registerUsuario(Usuario usuario) {
+        Rol rol = new Rol(3L);
+        usuario.setRol(rol);
+        return createUsuario(usuario);
     }
 
     @Override

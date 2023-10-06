@@ -18,6 +18,7 @@ public interface UsuarioService {
     Usuario getUsuarioByUsername(String username);
     Boolean getExistsUsuarioByUsername(String username);
     Usuario createUsuario(Usuario usuario);
+    Usuario registerUsuario(Usuario usuario);
     Usuario editUsuario(Long idUsuario, UsuarioDTO usuario);
     Usuario deleteUsuarioById(Long idUsuario);
 }
