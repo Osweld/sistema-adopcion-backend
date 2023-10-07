@@ -1,14 +1,15 @@
 package ues.dsi.sistemaadopcionbackend.auth.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ues.dsi.sistemaadopcionbackend.auth.models.AuthUser;
 import ues.dsi.sistemaadopcionbackend.auth.services.JWTService;
 import ues.dsi.sistemaadopcionbackend.auth.services.JWTServiceImpl;
+import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
+import ues.dsi.sistemaadopcionbackend.services.UsuarioService;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -19,10 +20,12 @@ import java.util.Map;
 public class AuthController {
 
     private final JWTService jwtService;
+    private final UsuarioService usuarioService;
 
 
-    public AuthController(JWTService jwtService) {
+    public AuthController(JWTService jwtService, UsuarioService userService) {
         this.jwtService = jwtService;
+        this.usuarioService = userService;
     }
 
     @GetMapping("/token/refresh")
@@ -37,5 +40,10 @@ public class AuthController {
         AuthUser user = new AuthUser( jwtService.getId(header),jwtService.getUsername(header),null,true,true,true,true,jwtService.getAuthorities(header));
         String token = jwtService.refreshToken(user);
         return null;
+    }
+
+    @PostMapping("register")
+    ResponseEntity<Usuario> registerUsuario(@Valid @RequestBody Usuario usuario){
+        return new ResponseEntity<>(usuarioService.createUsuario(usuario),HttpStatus.CREATED);
     }
 }

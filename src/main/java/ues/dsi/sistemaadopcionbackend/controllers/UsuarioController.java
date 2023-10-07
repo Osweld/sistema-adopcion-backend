@@ -83,10 +83,6 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioService.createUsuario(usuario),HttpStatus.CREATED);
     }
 
-    @PostMapping("")
-    ResponseEntity<Usuario> registerUsuario(@Valid @RequestBody Usuario usuario){
-        return new ResponseEntity<>(usuarioService.createUsuario(usuario),HttpStatus.CREATED);
-    }
 
     @PutMapping("/{idUsuario}")
     ResponseEntity<Usuario> editUsuario(@PathVariable Long idUsuario,
