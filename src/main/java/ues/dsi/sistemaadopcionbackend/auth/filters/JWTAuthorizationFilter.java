@@ -29,10 +29,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String header = request.getHeader(JWTServiceImpl.HEADER_STRING);
+
         if(!jwtService.requiresAuthentication(header)){
             chain.doFilter(request,response);
             return;
         }
+
 
         UsernamePasswordAuthenticationToken authenticationToken = null;
         if(jwtService.validate(header)){

@@ -56,11 +56,8 @@ public class SecurityConfig {
                     ,"/api/v1/auth/"
                     ,"/swagger-ui/**"
                     ,"/bus/v3/api-docs/**"
-                    ,"/v3/api-docs/**"
-                    ,"/api/**").permitAll();
-//                    .requestMatchers(HttpMethod.POST,"api/v1/usuarios").permitAll()
-//                    .requestMatchers("/api/**").hasAnyRole("USER","ADMIN","MANAGER")
-                    //.anyRequest().authenticated();
+                    ,"/v3/api-docs/**").permitAll()
+                    .anyRequest().authenticated();
                 })
                 .addFilter(new JWTAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(),jwtService ))
                 .addFilter(new JWTAuthorizationFilter(authenticationConfiguration.getAuthenticationManager(),jwtService)).cors().and()
