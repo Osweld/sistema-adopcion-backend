@@ -1,5 +1,6 @@
 package ues.dsi.sistemaadopcionbackend.auth.controllers;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -29,20 +30,31 @@ public class AuthController {
     }
 
     @GetMapping("/token/refresh")
+    @PermitAll()
     ResponseEntity<Map<String,Object>> refreshToken(HttpServletRequest request) throws IOException {
         Map<String,Object> body = new HashMap<>();
         String header = request.getHeader(JWTServiceImpl.HEADER_STRING);
         if(!jwtService.requiresAuthentication(header) || !jwtService.validate(header)){
             body.put("error","there was an error refreshing token");
             return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
-        }
 
-        AuthUser user = new AuthUser( jwtService.getId(header),jwtService.getUsername(header),null,true,true,true,true,jwtService.getAuthorities(header));
+        }
+        System.out.println("header: "+header);
+        System.out.println("id: "+jwtService.getId(header));
+        System.out.println("id: "+jwtService.getUsername(header));
+        System.out.println("id: "+jwtService.getAuthorities(header));
+
+
+
+        AuthUser user = new AuthUser( jwtService.getId(header),jwtService.getUsername(header),"",true,true,true,true,jwtService.getAuthorities(header));
         String token = jwtService.refreshToken(user);
-        return null;
+        body.put("user",user);
+        body.put("token",token);
+        return new ResponseEntity<>(body,HttpStatus.OK);
     }
 
     @PostMapping("register")
+    @PermitAll()
     ResponseEntity<Usuario> registerUsuario(@Valid @RequestBody Usuario usuario){
         return new ResponseEntity<>(usuarioService.registerUsuario(usuario),HttpStatus.CREATED);
     }

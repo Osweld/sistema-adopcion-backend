@@ -52,8 +52,7 @@ public class SecurityConfig {
 
         return httpSecurity.authorizeHttpRequests(auth -> {
             auth.requestMatchers(
-                    "/api/v1/token/**"
-                    ,"/api/v1/auth/"
+                    "/api/v1/**"
                     ,"/swagger-ui/**"
                     ,"/bus/v3/api-docs/**"
                     ,"/v3/api-docs/**").permitAll()
