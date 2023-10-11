@@ -9,9 +9,9 @@ import java.util.Map;
 
 @Configuration
 public class Cloudinaryconfig {
-    private final String CLOUD_NAME = "";
-    private final String API_KEY = "";
-    private final String API_SECRET = "";
+    private final String CLOUD_NAME = "dkg3altre";
+    private final String API_KEY = "945625183958856";
+    private final String API_SECRET = "JgRUeZ2xm6qoqYG9Ve5tx-2fwNI";
 
     @Bean
     public Cloudinary cloudinary(){

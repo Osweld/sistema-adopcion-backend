@@ -21,5 +21,6 @@ public interface MascotaService {
     Mascota deleteMascotaById(Long idMascota);
     List<Foto> saveMascotaPhotos(Long idMascota,MultipartFile[] multipartFiles) throws IOException;
     Mascota saveMascotaPhotoPerfil(Long idMascota,MultipartFile multipartFile) throws IOException;
+    List<Foto> getMascotaPhotos(Long idMascota);
 
 }

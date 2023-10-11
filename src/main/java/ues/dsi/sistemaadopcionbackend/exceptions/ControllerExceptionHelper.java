@@ -33,12 +33,12 @@ public class ControllerExceptionHelper {
         return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), errorMessage, request.getDescription(false)), status);
     }
 
-    @ExceptionHandler(value = {DataIntegrityViolationException.class})
-    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-
-        return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), ex.getMessage(), request.getDescription(false)), status);
-    }
+//    @ExceptionHandler(value = {DataIntegrityViolationException.class})
+//    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
+//        HttpStatus status = HttpStatus.BAD_REQUEST;
+//
+//        return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), ex.getMessage(), request.getDescription(false)), status);
+//    }
 
 
     //HttpMessageNotReadableException

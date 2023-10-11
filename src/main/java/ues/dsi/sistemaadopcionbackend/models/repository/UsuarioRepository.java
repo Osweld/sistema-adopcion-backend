@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
@@ -16,6 +17,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Boolean existsUsuarioByNumeroDui(String numeroDui);
     Usuario findUsuarioByUsername(String username);
     Boolean existsUsuarioByUsername(String username);
+    Optional<Usuario> findByUsername(String username);
+
 
 
 }

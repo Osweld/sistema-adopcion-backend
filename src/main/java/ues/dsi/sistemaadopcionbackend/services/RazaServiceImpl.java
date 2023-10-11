@@ -23,6 +23,11 @@ public class RazaServiceImpl implements RazaService{
     }
 
     @Override
+    public List<Raza> getAllRazasByEspecieId(Long IdEspecie) {
+        return razaRepository.findAllByEspecieId(IdEspecie);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Raza getRazaById(Long idRaza) {
         return razaRepository.findById(idRaza).orElseThrow(() -> new EntityNotFoundException("Raza no encontrada con el ID proporcionado: "+idRaza));
