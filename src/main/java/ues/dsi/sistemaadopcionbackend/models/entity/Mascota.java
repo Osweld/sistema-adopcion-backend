@@ -59,6 +59,9 @@ public class Mascota implements Serializable {
     @JoinColumn(name = "id_estado_salud", nullable = false)
     private EstadoSalud estadoSalud;
 
+    @ManyToOne(optional = false )
+    @JoinColumn(name = "id_estado_mascota", nullable = false)
+    private EstadoMascota estadoMascota;
 
     public Mascota(Long id) {
         this.id = id;
