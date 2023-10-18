@@ -92,9 +92,9 @@ public class SolicitudAdopcionServiceImpl implements SolicitudAdopcionService{
         SolicitudAdopcion solicitudAdopcion = solicitudAdopcionRepository.findById(idSolicitudAdopcion).orElseThrow(() ->
                 new EntityNotFoundException("Solicitud Adopción no encontrada con el ID proporcionado: " + idSolicitudAdopcion));
 
-        EstadoSolicitudAdopcion estadoSolicitudAdopcion = estadoSolicitudAdopcionRepository.findByEstado("DENEGADA");
+        EstadoSolicitudAdopcion estadoSolicitudAdopcion = estadoSolicitudAdopcionRepository.findByEstado("BORRADA");
         if(estadoSolicitudAdopcion == null)
-            throw new IllegalArgumentException("Estado Solicitud Adopción no encontrado con el Estado proporcionado: DENEGADA");
+            throw new IllegalArgumentException("Estado Solicitud Adopción no encontrado con el Estado proporcionado: BORRADA");
         
         solicitudAdopcion.setEstadoSolicitudAdopcion(estadoSolicitudAdopcion);
         

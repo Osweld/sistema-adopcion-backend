@@ -1,14 +1,16 @@
 package ues.dsi.sistemaadopcionbackend.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import ues.dsi.sistemaadopcionbackend.models.entity.MeGusta;
 
 public interface MeGustaService {
 
-    Page<MeGusta> getAllMeGusta(Pageable pageable);
-    Page<MeGusta> getAllMeGustaByMascotaId(Long idMascota, Pageable pageable);
-    Page<MeGusta> getAllMeGustaByUsuarioId(Long idUsuario, Pageable pageable);
+    List<MeGusta> getAllMeGusta();
+    List<MeGusta> getAllMeGustaByMascotaId(Long idMascota);
+    List<MeGusta> getAllMeGustaByUsuarioId(Long idUsuario);
     MeGusta getMeGustaById(Long idMeGusta);
     MeGusta createMeGusta(MeGusta meGusta);
     MeGusta editMeGusta(Long idMeGusta, MeGusta meGusta);

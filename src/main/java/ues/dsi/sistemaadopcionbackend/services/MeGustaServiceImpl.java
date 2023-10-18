@@ -1,6 +1,9 @@
 package ues.dsi.sistemaadopcionbackend.services;
 
 import jakarta.persistence.EntityNotFoundException;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,24 +24,24 @@ public class MeGustaServiceImpl implements MeGustaService{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<MeGusta> getAllMeGusta(Pageable pageable) {
-        return meGustaRepository.findAll(pageable);
+    public List<MeGusta> getAllMeGusta() {
+        return meGustaRepository.findAll();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<MeGusta> getAllMeGustaByMascotaId(Long idMascota, Pageable pageable) {
+    public List<MeGusta> getAllMeGustaByMascotaId(Long idMascota) {
         if (idMascota == null)
             throw new IllegalArgumentException("El argumento idMascota no puede ser nulo");
-        return meGustaRepository.findAllByMascotaId(idMascota, pageable);
+        return meGustaRepository.findAllByMascotaId(idMascota);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<MeGusta> getAllMeGustaByUsuarioId(Long idUsuario, Pageable pageable) {
+    public List<MeGusta> getAllMeGustaByUsuarioId(Long idUsuario) {
         if (idUsuario == null)
             throw new IllegalArgumentException("El argumento idUsuario no puede ser nulo");
-        return meGustaRepository.findAllByUsuarioId(idUsuario, pageable);
+        return meGustaRepository.findAllByUsuarioId(idUsuario);
     }
 
     @Override
