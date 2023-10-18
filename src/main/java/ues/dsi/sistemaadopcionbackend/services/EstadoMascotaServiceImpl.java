@@ -27,7 +27,7 @@ public class EstadoMascotaServiceImpl implements EstadoMascotaService {
     @Transactional(readOnly = true)
     public EstadoMascota getEstadoMascotaById(Long idEstadoMascota) {
         return estadoMascotaRepository.findById(idEstadoMascota).orElseThrow(() ->
-                new EntityNotFoundException("EstadoMascota no encontrada con el ID proporcionado: " + idEstadoMascota));
+                new EntityNotFoundException("Estado Mascota no encontrado con el ID proporcionado: " + idEstadoMascota));
     }
 
     @Override
@@ -40,11 +40,11 @@ public class EstadoMascotaServiceImpl implements EstadoMascotaService {
     @Transactional()
     public EstadoMascota editEstadoMascota(Long idEstadoMascota, EstadoMascota estadoMascota) {
         if (idEstadoMascota == null || estadoMascota == null) {
-            throw new IllegalArgumentException("Los argumentos idEstadoMascota y EstadoMascota no pueden ser nulos");
+            throw new IllegalArgumentException("Los argumentos idEstadoMascota y Estado Mascota no pueden ser nulos");
         }
 
         EstadoMascota estadoMascotaDB = estadoMascotaRepository.findById(idEstadoMascota).orElseThrow(() ->
-                new EntityNotFoundException("EstadoMascota no encontrada con el ID proporcionado: " + idEstadoMascota));
+                new EntityNotFoundException("Estado Mascota no encontrado con el ID proporcionado: " + idEstadoMascota));
         estadoMascotaDB.setEstado(estadoMascota.getEstado());
         return estadoMascotaRepository.save(estadoMascotaDB);
     }
@@ -57,7 +57,7 @@ public class EstadoMascotaServiceImpl implements EstadoMascotaService {
         }
 
         EstadoMascota estadoMascota = estadoMascotaRepository.findById(idEstadoMascota).orElseThrow(() ->
-                new EntityNotFoundException("EstadoMascota no encontrada con el ID proporcionado: " + idEstadoMascota));
+                new EntityNotFoundException("Estado Mascota no encontrado con el ID proporcionado: " + idEstadoMascota));
 
         estadoMascotaRepository.delete(estadoMascota);
         return estadoMascota;
