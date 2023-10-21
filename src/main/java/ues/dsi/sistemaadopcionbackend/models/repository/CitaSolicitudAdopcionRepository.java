@@ -13,6 +13,7 @@ public interface CitaSolicitudAdopcionRepository extends JpaRepository<CitaSolic
 
     Page<CitaSolicitudAdopcion> findAllByFechaCita(Date fechaCita, Pageable pageable);
     Page<CitaSolicitudAdopcion> findAllByEstadoCitaSolicitudId(Long idEstadoCitaSolicitud, Pageable pageable);
-    CitaSolicitudAdopcion findByHoraCita(Time horaCita);
-    
+    CitaSolicitudAdopcion findByIdCitaSolicitudAdopcionAndHoraCita(Long idCitaSolicitudAdopcion, Time horaCita);
+    Boolean existCitaSolicitudAdopcionByFechaCita(Date fechaCita);
+    Boolean existCitaSolicitudAdopcionByHoraCita(Time horaCita);
 }

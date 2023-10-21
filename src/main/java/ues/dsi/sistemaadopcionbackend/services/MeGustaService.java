@@ -2,8 +2,6 @@ package ues.dsi.sistemaadopcionbackend.services;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import ues.dsi.sistemaadopcionbackend.models.entity.MeGusta;
 
 public interface MeGustaService {

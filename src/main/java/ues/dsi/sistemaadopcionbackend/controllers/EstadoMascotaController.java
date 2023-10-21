@@ -1,7 +1,5 @@
 package ues.dsi.sistemaadopcionbackend.controllers;
 
-
-import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
