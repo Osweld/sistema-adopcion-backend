@@ -20,11 +20,13 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class ControllerExceptionHelper {
 
-    @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class, NoSuchElementException.class, EmptyResultDataAccessException.class})
+    @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class, NoSuchElementException.class, EmptyResultDataAccessException.class, UniqueValidationException.class})
     ResponseEntity<ErrorResponse> HandleNotFoundExceptions(Exception ex, WebRequest request){
         HttpStatus status = HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), ex.getMessage(),request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
+
+
 
     @ExceptionHandler(value = {DuplicateEntityException.class})
     public ResponseEntity<ErrorResponse> handleDuplicateEntityException(DuplicateEntityException ex, WebRequest request) {
@@ -32,6 +34,8 @@ public class ControllerExceptionHelper {
         String errorMessage = ex.getMessage();
         return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), errorMessage, request.getDescription(false)), status);
     }
+
+
 
 //    @ExceptionHandler(value = {DataIntegrityViolationException.class})
 //    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
@@ -53,5 +57,7 @@ public class ControllerExceptionHelper {
         }
         return new ResponseEntity<>(new ErrorResponse(new Date(), status.value(), status.name(), ex.getMessage(), request.getDescription(false), validations), HttpStatus.BAD_REQUEST);
     }
+
+
 
 }
