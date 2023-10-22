@@ -48,7 +48,7 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
             throw new IllegalArgumentException("El argumento idEstadoCitaSolicitud no puede ser nulo");
         return citaSolicitudAdopcionRepository.findAllByEstadoCitaSolicitudId(idEstadoCitaSolicitud, pageable);
     }
-
+/* 
     @Override
     @Transactional(readOnly = true)
     public CitaSolicitudAdopcion getByIdCitaSolicitudAdopcionAndIdHoraCitaSolicitud(Long idCitaSolicitudAdopcion, Long idHoraCitaSolicitud) {
@@ -64,7 +64,7 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
         
             return citaSolicitud;
     }
-
+*/
     @Override
     @Transactional(readOnly = true)
     public CitaSolicitudAdopcion getCitaSolicitudAdopcionById(Long idCitaSolicitudAdopcion) {
@@ -113,7 +113,7 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
         return citaSolicitudAdopcionRepository.save(citaSolicitudAdopcion);
     }
 
-    @Override
+    /*@Override
     public Boolean existCitaSolicitudAdopcionByFechaCita(Date fechaCita) {
         if (fechaCita == null)
             throw new IllegalArgumentException("El argumento fechaCita no puede ser nulo");
@@ -126,5 +126,5 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
             throw new IllegalArgumentException("El argumento idHoraCitaSolicitud no puede ser nulo");
         return citaSolicitudAdopcionRepository.existCitaSolicitudAdopcionByIdHoraCitaSolicitud(idHoraCitaSolicitud);
     }
-
+*/
 }
