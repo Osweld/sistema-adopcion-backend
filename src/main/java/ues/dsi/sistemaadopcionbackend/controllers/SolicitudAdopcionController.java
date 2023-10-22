@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import ues.dsi.sistemaadopcionbackend.models.entity.SolicitudAdopcion;
 import ues.dsi.sistemaadopcionbackend.services.SolicitudAdopcionService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1/solicitud-adopcion")
 public class SolicitudAdopcionController {
@@ -68,13 +66,13 @@ public class SolicitudAdopcionController {
     }
 
     @PutMapping("/{idSolicitudAdopcion}")
-    @PermitAll()
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     ResponseEntity<SolicitudAdopcion> editSolicitudAdopcion(@PathVariable Long idSolicitudAdopcion,@Valid @RequestBody SolicitudAdopcion solicitudAdopcion){
         return new ResponseEntity<>(solicitudAdopcionService.editSolicitudAdopcion(idSolicitudAdopcion,solicitudAdopcion),HttpStatus.OK);
     }
 
     @DeleteMapping("/{idSolicitudAdopcion}")
-    @PermitAll()
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     ResponseEntity<SolicitudAdopcion> deleteSolicitudAdopcion(@PathVariable Long idSolicitudAdopcion){
         return new ResponseEntity<>(solicitudAdopcionService.deleteSolicitudAdopcionById(idSolicitudAdopcion),HttpStatus.OK);
     }

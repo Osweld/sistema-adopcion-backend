@@ -78,7 +78,7 @@ public class SolicitudAdopcionServiceImpl implements SolicitudAdopcionService{
         if(solicitudAdopcion.getMascota() != null) solicitudAdopcionDB.setMascota(solicitudAdopcion.getMascota());
         if(solicitudAdopcion.getUsuario() != null) solicitudAdopcionDB.setUsuario(solicitudAdopcion.getUsuario());
         if(solicitudAdopcion.getEstadoSolicitudAdopcion() != null) solicitudAdopcionDB.setEstadoSolicitudAdopcion(solicitudAdopcion.getEstadoSolicitudAdopcion());
-        if(solicitudAdopcion.getDetalleSolicitudAdopcion() != null) solicitudAdopcionDB.setDetalleSolicitudAdopcion(solicitudAdopcion.getDetalleSolicitudAdopcion());
+        if(solicitudAdopcion.getComentarioGestionSolicitud() != null) solicitudAdopcionDB.setComentarioGestionSolicitud(solicitudAdopcion.getComentarioGestionSolicitud());
 
         return solicitudAdopcionRepository.save(solicitudAdopcionDB);
     }

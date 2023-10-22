@@ -29,9 +29,9 @@ public class SolicitudAdopcion implements Serializable {
     @Column(name = "descripcion", length = 250, nullable = true)
     private String descripcion;
 
-    @OneToOne(optional = false )
-    @JoinColumn(name = "id_detalle_solicitud_adopcion", nullable = false)
-    private DetalleSolicitudAdopcion detalleSolicitudAdopcion;
+    @Size(min = 1, max = 200, message = "La comentario Gestion Solicitud de la solicitud debe tener entre 1 y 200 caracteres")
+    @Column(name = "comentario_gestion_solicitud", length = 200, nullable = true)
+    private String comentarioGestionSolicitud;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_mascota", nullable = false)

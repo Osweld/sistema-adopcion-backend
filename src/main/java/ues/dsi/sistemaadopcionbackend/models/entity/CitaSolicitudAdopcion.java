@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
 
 @Entity
@@ -27,14 +26,10 @@ public class CitaSolicitudAdopcion implements Serializable {
     @Column(name = "fecha_cita")
     private Date fechaCita;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    @Column(name = "hora_cita")
-    private Time horaCita;
-
     @NotBlank(message = "Los motivos de la cita no pueden estar vacíos")
     @Size(min = 1, max = 150, message = "Los motivos de la cita deben tener entre 1 y 150 caracteres")
     @Column(name = "motivo_cita", length = 150, nullable = false)
-    private String motivo;
+    private String motivoCita;
 
     @Column(name = "descripcion", length = 250, nullable = true)
     private String descripcion;
@@ -46,6 +41,10 @@ public class CitaSolicitudAdopcion implements Serializable {
     @ManyToOne(optional = false )
     @JoinColumn(name = "id_estado_cita_solicitud", nullable = false)
     private EstadoCitaSolicitud estadoCitaSolicitud;
+
+    @ManyToOne(optional = false )
+    @JoinColumn(name = "id_hora_cita_solicitud", nullable = false)
+    private HoraCitaSolicitud horaCitaSolicitud;
 
     public CitaSolicitudAdopcion(Long id) {
         this.id = id;

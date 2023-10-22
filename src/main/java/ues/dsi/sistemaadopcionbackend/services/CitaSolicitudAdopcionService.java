@@ -13,9 +13,9 @@ public interface CitaSolicitudAdopcionService {
     Page<CitaSolicitudAdopcion> getAllCitasSolicitudAdopcion(Pageable pageable);
     Page<CitaSolicitudAdopcion> getAllByFechaCita(Date fechaCita, Pageable pageable);
     Page<CitaSolicitudAdopcion> getAllByEstadoCitaSolicitudId(Long idEstadoCitaSolicitud, Pageable pageable);
-    CitaSolicitudAdopcion getByIdCitaSolicitudAdopcionAndHoraCita(Long idCitaSolicitudAdopcion, Time horaCita);
+    CitaSolicitudAdopcion getByIdCitaSolicitudAdopcionAndIdHoraCitaSolicitud(Long idCitaSolicitudAdopcion, Long idHoraCitaSolicitud);
     Boolean existCitaSolicitudAdopcionByFechaCita(Date fechaCita);
-    Boolean existCitaSolicitudAdopcionByHoraCita(Time horaCita);
+    Boolean existCitaSolicitudAdopcionByIdHoraCitaSolicitud(Long idHoraCitaSolicitud);
     CitaSolicitudAdopcion getCitaSolicitudAdopcionById(Long idCitaSolicitudAdopcion);
     CitaSolicitudAdopcion createCitaSolicitudAdopcion(CitaSolicitudAdopcion citaSolicitudAdopcion);
     CitaSolicitudAdopcion editCitaSolicitudAdopcion(Long idCitaSolicitudAdopcion, CitaSolicitudAdopcion citaSolicitudAdopcion);
