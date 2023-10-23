@@ -11,7 +11,7 @@ import ues.dsi.sistemaadopcionbackend.services.EstadoCitaSolicitudService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/estado-cita-solicitud-adopcion")
+@RequestMapping("/api/v1/estado-cita-solicitud")
 public class EstadoCitaSolicitudController {
 
     private final EstadoCitaSolicitudService estadoCitaSolicitudService;
@@ -46,7 +46,7 @@ public class EstadoCitaSolicitudController {
     }
 
     @DeleteMapping("/{idEstadoCitaSolicitud}")
-     @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     ResponseEntity<EstadoCitaSolicitud> deleteEstadoCitaSolicitudById(@PathVariable Long idEstadoCitaSolicitud){
         return new ResponseEntity<>(estadoCitaSolicitudService.deleteEstadoCitaSolicitudById(idEstadoCitaSolicitud),HttpStatus.OK);
     }

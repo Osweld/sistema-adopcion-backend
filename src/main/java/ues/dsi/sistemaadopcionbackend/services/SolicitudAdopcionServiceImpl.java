@@ -73,7 +73,7 @@ public class SolicitudAdopcionServiceImpl implements SolicitudAdopcionService{
         }
         SolicitudAdopcion solicitudAdopcionDB = solicitudAdopcionRepository.findById(idSolicitudAdopcion).orElseThrow(() -> new EntityNotFoundException("Solicitud Adopcion no encontrada con el ID proporcionado: "+idSolicitudAdopcion));
 
-        solicitudAdopcionDB.setMotivo(solicitudAdopcion.getMotivo());
+        if(solicitudAdopcion.getMotivo() != null) solicitudAdopcionDB.setMotivo(solicitudAdopcion.getMotivo());
         if(solicitudAdopcion.getDescripcion() != null) solicitudAdopcionDB.setDescripcion(solicitudAdopcion.getDescripcion());
         if(solicitudAdopcion.getMascota() != null) solicitudAdopcionDB.setMascota(solicitudAdopcion.getMascota());
         if(solicitudAdopcion.getUsuario() != null) solicitudAdopcionDB.setUsuario(solicitudAdopcion.getUsuario());

@@ -85,7 +85,7 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
         }
         CitaSolicitudAdopcion citaSolicitudAdopcionDB = citaSolicitudAdopcionRepository.findById(idCitaSolicitudAdopcion).orElseThrow(() -> new EntityNotFoundException("Cita Solicitud Adopcion no encontrada con el ID proporcionado: "+idCitaSolicitudAdopcion));
 
-        citaSolicitudAdopcionDB.setMotivoCita(citaSolicitudAdopcion.getMotivoCita());
+        if(citaSolicitudAdopcion.getMotivoCita() != null) citaSolicitudAdopcionDB.setMotivoCita(citaSolicitudAdopcion.getMotivoCita());
         if(citaSolicitudAdopcion.getDescripcion() != null) citaSolicitudAdopcionDB.setDescripcion(citaSolicitudAdopcion.getDescripcion());
         if(citaSolicitudAdopcion.getFechaCita() != null) citaSolicitudAdopcionDB.setFechaCita(citaSolicitudAdopcion.getFechaCita());
         if(citaSolicitudAdopcion.getHoraCitaSolicitud() != null) citaSolicitudAdopcionDB.setHoraCitaSolicitud(citaSolicitudAdopcion.getHoraCitaSolicitud());

@@ -24,13 +24,14 @@ public class EstadoSolicitudAdopcionController {
 
     @GetMapping("")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
-    ResponseEntity<List<EstadoSolicitudAdopcion>> getAllEstadoSolicitudAdopcions(){
+    @PermitAll()
+    ResponseEntity<List<EstadoSolicitudAdopcion>> getAllEstadoSolicitudAdopcion(){
         return new ResponseEntity<>(estadoSolicitudAdopcionService.getAllEstadoSolicitudAdopcion(), HttpStatus.OK);
     }
 
     @GetMapping("/{idEstadoSolicitudAdopcion}")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
-    ResponseEntity<EstadoSolicitudAdopcion> getAllEstadoSolicitudAdopcions(@PathVariable Long idEstadoSolicitudAdopcion){
+    ResponseEntity<EstadoSolicitudAdopcion> getAllEstadoSolicitudAdopcion(@PathVariable Long idEstadoSolicitudAdopcion){
         return new ResponseEntity<>(estadoSolicitudAdopcionService.getEstadoSolicitudAdopcionById(idEstadoSolicitudAdopcion), HttpStatus.OK);
     }
 

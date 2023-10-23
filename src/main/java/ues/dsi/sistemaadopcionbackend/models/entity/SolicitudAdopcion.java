@@ -22,14 +22,12 @@ public class SolicitudAdopcion implements Serializable {
 
     @NotBlank(message = "El motivo de solicitud no puede estar vacío")
     @Size(min = 1, max = 150, message = "El motivo de solicitud debe tener entre 1 y 150 caracteres")
-    @Column(name = "motivo", length = 150, nullable = false)
+    @Column(name = "motivo_solicitud", length = 150, nullable = false)
     private String motivo;
 
-    @Size(min = 1, max = 250, message = "La descripción de la solicitud debe tener entre 1 y 250 caracteres")
     @Column(name = "descripcion", length = 250, nullable = true)
     private String descripcion;
 
-    @Size(min = 1, max = 200, message = "La comentario Gestion Solicitud de la solicitud debe tener entre 1 y 200 caracteres")
     @Column(name = "comentario_gestion_solicitud", length = 200, nullable = true)
     private String comentarioGestionSolicitud;
 
