@@ -9,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import ues.dsi.sistemaadopcionbackend.models.DTO.ChangePasswordDTO;
 import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.services.UsuarioService;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
@@ -57,8 +60,8 @@ public class UsuarioController {
 
     @GetMapping("/{idUsuario}")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
-    ResponseEntity<Usuario> getUsuarioById(@PathVariable Long idUsuario){
-        return new ResponseEntity<>(usuarioService.getUsuarioById(idUsuario),HttpStatus.OK);
+    ResponseEntity<Usuario> getUsuarioById(@PathVariable Long idUsuario, Principal principal){
+        return new ResponseEntity<>(usuarioService.getUsuarioById(idUsuario,principal),HttpStatus.OK);
     }
 
     @GetMapping("/identidad/{numDui}")
@@ -91,6 +94,13 @@ public class UsuarioController {
     ResponseEntity<Usuario> editUsuario(@PathVariable Long idUsuario,
                                         @Valid @RequestBody UsuarioDTO usuario){
         return new ResponseEntity<>(usuarioService.editUsuario(idUsuario,usuario),HttpStatus.OK);
+    }
+
+    @PutMapping("/change-password")
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
+    ResponseEntity<Usuario> changePasword(
+                                        @Valid @RequestBody ChangePasswordDTO changePasswordDTO,Principal principal){
+        return new ResponseEntity<>(usuarioService.changePassword(changePasswordDTO,principal),HttpStatus.OK);
     }
 
     @DeleteMapping("/{idUsuario}")
