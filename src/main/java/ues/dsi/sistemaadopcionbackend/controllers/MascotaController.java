@@ -60,6 +60,14 @@ public class MascotaController {
         return new ResponseEntity<>(mascotaService.getAllMascotasByGenero(idGenero,PageRequest.of(page, size)), HttpStatus.OK);
     }
 
+    @GetMapping("/estado-mascota/{idEstadoMascota}")
+    @PermitAll()
+    ResponseEntity<Page<Mascota>> getMascotasByEstadoMascotaWithPagination(@PathVariable Long idEstadoMascota,
+                                                                  @RequestParam(name = "page",defaultValue = "0",required = false) int page,
+                                                                  @RequestParam(name = "size",defaultValue = "10",required = false) int size){
+        return new ResponseEntity<>(mascotaService.getAllMascotasByEstadoMascota(idEstadoMascota,PageRequest.of(page, size)), HttpStatus.OK);
+    }
+
     @GetMapping("/{idMascota}")
     @PermitAll()
     ResponseEntity<Mascota> getMascotaById(@PathVariable Long idMascota){

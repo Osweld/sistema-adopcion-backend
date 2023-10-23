@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import ues.dsi.sistemaadopcionbackend.cloudinary.FileUpload;
 import ues.dsi.sistemaadopcionbackend.models.entity.Foto;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
+import ues.dsi.sistemaadopcionbackend.models.entity.EstadoMascota;
+import ues.dsi.sistemaadopcionbackend.models.repository.EstadoMascotaRepository;
 import ues.dsi.sistemaadopcionbackend.models.repository.FotoRepository;
 import ues.dsi.sistemaadopcionbackend.models.repository.MascotaRepository;
 
@@ -22,11 +24,13 @@ public class MascotaServiceImpl implements MascotaService{
 
     private final MascotaRepository mascotaRepository;
     private final FotoRepository fotoRepository;
+    private final EstadoMascotaRepository estadoMascotaRepository;
     private final FileUpload fileUpload;
 
-    public MascotaServiceImpl(MascotaRepository mascotaRepository, FotoRepository fotoRepository, FileUpload fileUpload) {
+    public MascotaServiceImpl(MascotaRepository mascotaRepository, FotoRepository fotoRepository, EstadoMascotaRepository estadoMascotaRepository, FileUpload fileUpload) {
         this.mascotaRepository = mascotaRepository;
         this.fotoRepository = fotoRepository;
+        this.estadoMascotaRepository = estadoMascotaRepository;
         this.fileUpload = fileUpload;
     }
 
@@ -63,6 +67,14 @@ public class MascotaServiceImpl implements MascotaService{
 
     @Override
     @Transactional(readOnly = true)
+    public Page<Mascota> getAllMascotasByEstadoMascota(Long idEstadoMascota, Pageable pageable) {
+        if (idEstadoMascota == null)
+            throw new IllegalArgumentException("El argumento idEstadoMascota no puede ser nulo");
+        return mascotaRepository.findAllByEstadoMascotaId(idEstadoMascota, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Mascota getMascotaById(Long idMascota) {
         return mascotaRepository.findById(idMascota).orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada con el ID proporcionado: "+idMascota));
     }
@@ -84,12 +96,12 @@ public class MascotaServiceImpl implements MascotaService{
         mascotaDB.setNombre(mascota.getNombre());
         if(mascota.getColor() != null) mascotaDB.setColor(mascota.getColor());
         if(mascota.getEstadoSalud() != null) mascotaDB.setEstadoSalud(mascota.getEstadoSalud());
+        if(mascota.getEstadoMascota() != null) mascotaDB.setEstadoMascota(mascota.getEstadoMascota());
         if(mascota.getDescripcion() != null) mascotaDB.setDescripcion(mascota.getDescripcion());
         if(mascota.getFechaNacimiento() != null) mascotaDB.setFechaNacimiento(mascota.getFechaNacimiento());
         if(mascota.getEspecie() != null) mascotaDB.setEspecie(mascota.getEspecie());
         if(mascota.getRaza() != null) mascotaDB.setRaza(mascota.getRaza());
         if(mascota.getGenero() != null) mascotaDB.setGenero(mascota.getGenero());
-
 
         return mascotaRepository.save(mascotaDB);
     }
@@ -102,8 +114,14 @@ public class MascotaServiceImpl implements MascotaService{
         }
         Mascota mascota = mascotaRepository.findById(idMascota).orElseThrow(() ->
                 new EntityNotFoundException("Mascota no encontrada con el ID proporcionado: " + idMascota));
-        mascotaRepository.delete(mascota);
-        return mascota;
+        
+        EstadoMascota estadoMascota = estadoMascotaRepository.findByEstado("NO DISPONIBLE");
+        if(estadoMascota == null)
+            throw new IllegalArgumentException("Estado Mascota no encontrado con el Estado proporcionado: NO DISPONIBLE");
+        
+        mascota.setEstadoMascota(estadoMascota);
+        
+        return mascotaRepository.save(mascota);
     }
 
     @Override

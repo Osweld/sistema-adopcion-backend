@@ -1,7 +1,6 @@
 package ues.dsi.sistemaadopcionbackend.services;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.exceptions.DuplicateEntityException;

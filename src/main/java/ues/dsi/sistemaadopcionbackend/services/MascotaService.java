@@ -15,6 +15,7 @@ public interface MascotaService {
     Page<Mascota> getAllMascotasByGenero(Long idGenero,Pageable pageable);
     Page<Mascota> getAllMascotasByRaza(Long idRaza,Pageable pageable);
     Page<Mascota> getAllMascotasByEspecie(Long idEspecie,Pageable pageable);
+    Page<Mascota> getAllMascotasByEstadoMascota(Long idEstadoMascota,Pageable pageable);
     Mascota getMascotaById(Long idMascota);
     Mascota createMascota(Mascota mascota);
     Mascota editMascota(Long idMascota,Mascota mascota);
