@@ -1,7 +1,6 @@
 package ues.dsi.sistemaadopcionbackend.controllers;
 
 
-import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -98,7 +97,7 @@ public class UsuarioController {
 
     @PutMapping("/change-password")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
-    ResponseEntity<Usuario> changePasword(
+    ResponseEntity<Usuario> changePassword(
                                         @Valid @RequestBody ChangePasswordDTO changePasswordDTO,Principal principal){
         return new ResponseEntity<>(usuarioService.changePassword(changePasswordDTO,principal),HttpStatus.OK);
     }
