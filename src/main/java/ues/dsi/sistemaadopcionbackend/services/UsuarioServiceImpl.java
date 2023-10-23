@@ -129,7 +129,12 @@ public class UsuarioServiceImpl implements UsuarioService{
             usuarioDB.setNumeroDui(usuario.getNumeroDui());
         }
         if(usuario.getDireccion() != null) usuarioDB.setDireccion(usuario.getDireccion());
-        if(usuario.getEmail() != null) usuarioDB.setEmail(usuario.getEmail());
+        if(usuario.getEmail() != null) {
+            if(usuarioRepository.existsUsuarioByEmail(usuario.getEmail()) && !usuarioDB.getEmail().equals(usuario.getEmail())){
+                throw new UniqueValidationException("Ya existe el usuario con el email ingresado");
+            }
+            usuarioDB.setEmail(usuario.getEmail());
+        }
         if(usuario.getTelefono() != null) usuarioDB.setTelefono(usuario.getTelefono());
         if(usuario.getUsername() != null) {
             if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername()) && !usuarioDB.getUsername().equals(usuario.getUsername())){

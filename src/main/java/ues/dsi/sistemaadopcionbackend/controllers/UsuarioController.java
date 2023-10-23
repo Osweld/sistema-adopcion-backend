@@ -87,7 +87,7 @@ public class UsuarioController {
 
 
     @PutMapping("/{idUsuario}")
-    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
     ResponseEntity<Usuario> editUsuario(@PathVariable Long idUsuario,
                                         @Valid @RequestBody UsuarioDTO usuario){
         return new ResponseEntity<>(usuarioService.editUsuario(idUsuario,usuario),HttpStatus.OK);
