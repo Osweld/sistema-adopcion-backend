@@ -77,6 +77,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     @Transactional(readOnly = true)
+    public Usuario getUsuarioByEmail(String email) {
+        if (email == null)
+            throw new IllegalArgumentException("El argumento email no puede ser nulo");
+        return usuarioRepository.findUsuarioByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Boolean getExistsUsuarioByUsername(String username) {
         if (username == null)
             throw new IllegalArgumentException("El argumento username no puede ser nulo");

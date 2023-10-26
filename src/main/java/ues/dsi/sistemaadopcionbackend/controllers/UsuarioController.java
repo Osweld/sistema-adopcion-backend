@@ -68,9 +68,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/username/{username}")
-    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
+    @PermitAll()
     ResponseEntity<Usuario> findByUsername(@PathVariable String username) {
         return new ResponseEntity<>(usuarioService.getUsuarioByUsername(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/email/{email}")
+    @PermitAll()
+    ResponseEntity<Usuario> findByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(usuarioService.getUsuarioByEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/existsusername/{username}")
