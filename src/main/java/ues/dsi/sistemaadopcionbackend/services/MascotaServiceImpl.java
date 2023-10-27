@@ -82,6 +82,8 @@ public class MascotaServiceImpl implements MascotaService{
     @Override
     @Transactional
     public Mascota createMascota(Mascota mascota) {
+        EstadoMascota estadoMascota = new EstadoMascota(1);
+        mascota.setEstadoMascota(estadoMascota);
         return mascotaRepository.save(mascota);
     }
 

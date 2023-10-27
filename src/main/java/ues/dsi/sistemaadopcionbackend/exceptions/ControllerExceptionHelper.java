@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class ControllerExceptionHelper {
 
-    @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class, NoSuchElementException.class, EmptyResultDataAccessException.class, UniqueValidationException.class})
+    @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class, NoSuchElementException.class, EmptyResultDataAccessException.class, UniqueValidationException.class, IllegalArgumentException.class})
     ResponseEntity<ErrorResponse> HandleNotFoundExceptions(Exception ex, WebRequest request){
         HttpStatus status = HttpStatus.NOT_FOUND;
         return new ResponseEntity<>(new ErrorResponse(new Date(),status.value(), status.name(), ex.getMessage(),request.getDescription(false)), HttpStatus.BAD_REQUEST);

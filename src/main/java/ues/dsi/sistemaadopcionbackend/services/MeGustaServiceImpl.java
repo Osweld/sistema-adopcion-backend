@@ -2,18 +2,24 @@ package ues.dsi.sistemaadopcionbackend.services;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ues.dsi.sistemaadopcionbackend.models.DTO.MascotaIdDTO;
+import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
 import ues.dsi.sistemaadopcionbackend.models.entity.MeGusta;
+import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.models.repository.MeGustaRepository;
+import ues.dsi.sistemaadopcionbackend.models.repository.UsuarioRepository;
 
 @Service
 public class MeGustaServiceImpl implements MeGustaService{
 
     private final MeGustaRepository meGustaRepository;
+
    
     public MeGustaServiceImpl(MeGustaRepository meGustaRepository) {
         this.meGustaRepository = meGustaRepository;
@@ -43,6 +49,11 @@ public class MeGustaServiceImpl implements MeGustaService{
     }
 
     @Override
+    public List<MascotaIdDTO> getMeGustaByIdUsuario(Principal principal) {
+        return meGustaRepository.findMascotaIdsByUsuarioId(Long.parseLong(principal.getName()));
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public MeGusta getMeGustaById(Long idMeGusta) {
         return meGustaRepository.findById(idMeGusta).orElseThrow(() -> new EntityNotFoundException("MeGusta no encontrado con el ID proporcionado: "+idMeGusta));
@@ -50,9 +61,22 @@ public class MeGustaServiceImpl implements MeGustaService{
 
     @Override
     @Transactional
-    public MeGusta createMeGusta(MeGusta meGusta) {
-        return meGustaRepository.save(meGusta);
+    public MeGusta createAndDeleteMeGusta(Long idMascota, Principal principal) {
+        Usuario usuario = new Usuario(Long.parseLong(principal.getName()));
+        Mascota mascota = new Mascota(idMascota);
+        MeGusta  meGusta = meGustaRepository.findMeGustaByUsuarioAndMascota(usuario,mascota).orElse(null);
+        if(meGusta == null){
+            meGusta = new MeGusta();
+            meGusta.setMascota(mascota);
+            meGusta.setUsuario(usuario);
+            return meGustaRepository.save(meGusta);
+        }else{
+            meGustaRepository.delete(meGusta);
+            return meGusta;
+        }
+
     }
+
 
     @Override
     @Transactional
