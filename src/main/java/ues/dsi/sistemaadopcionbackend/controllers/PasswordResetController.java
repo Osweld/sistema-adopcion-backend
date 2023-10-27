@@ -5,6 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.annotation.security.PermitAll;
+import ues.dsi.sistemaadopcionbackend.models.DTO.Message;
 import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.services.EmailService;
@@ -53,7 +54,7 @@ public class PasswordResetController {
         emailService.sendPasswordResetEmail(usuario.getEmail(), passwordTemporal);
 
 
-        return ResponseEntity.ok("Contraseña restablecida con éxito, puede verificar en su correo electrónico");
+        return ResponseEntity.ok(new Message("Contraseña restablecida con éxito, puede verificar en su correo electrónico"));
     }
 
     
