@@ -69,7 +69,9 @@ public class SolicitudAdopcionServiceImpl implements SolicitudAdopcionService{
     public SolicitudAdopcion getSolicitudByUsuarioAndEstadoSolicitud(Principal principal) {
         Usuario usuario = new Usuario(Long.parseLong(principal.getName()));
         EstadoSolicitudAdopcion estadoSolicitudAdopcion = new EstadoSolicitudAdopcion(3L);
-        return solicitudAdopcionRepository.getSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(usuario,estadoSolicitudAdopcion).orElse(null);
+        return solicitudAdopcionRepository.getSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(usuario,estadoSolicitudAdopcion).orElse(
+                solicitudAdopcionRepository.getSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(usuario,new EstadoSolicitudAdopcion(1L)
+                ).orElse(null));
     }
 
     @Override
@@ -82,16 +84,20 @@ public class SolicitudAdopcionServiceImpl implements SolicitudAdopcionService{
     @Transactional
     public SolicitudAdopcion createSolicitudAdopcion(CreateSolicitudAdopcionDTO createSolicitudAdopcionDTO, Principal principal) {
         Usuario usuario = new Usuario(Long.parseLong(principal.getName()));
-        EstadoSolicitudAdopcion estadoSolicitudAdopcion = new EstadoSolicitudAdopcion(3);
-        if(solicitudAdopcionRepository.existsSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(usuario,estadoSolicitudAdopcion)){
+        if(solicitudAdopcionRepository.existsSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(usuario,new EstadoSolicitudAdopcion(3))){
             throw new IllegalArgumentException("Solo se puede realizar una solicitud a la vez");
         }
+
+        if(solicitudAdopcionRepository.existsSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(usuario,new EstadoSolicitudAdopcion(1L))){
+            throw new IllegalArgumentException("Solo se puede realizar una solicitud a la vez");
+        }
+
         SolicitudAdopcion solicitudAdopcion = new SolicitudAdopcion();
         solicitudAdopcion.setMotivo(createSolicitudAdopcionDTO.getTitulo());
         solicitudAdopcion.setDescripcion(createSolicitudAdopcionDTO.getDescripcion());
         solicitudAdopcion.setUsuario(usuario);
         solicitudAdopcion.setMascota(new Mascota(createSolicitudAdopcionDTO.getIdMascota()));
-        solicitudAdopcion.setEstadoSolicitudAdopcion(estadoSolicitudAdopcion);
+        solicitudAdopcion.setEstadoSolicitudAdopcion(new EstadoSolicitudAdopcion(3));
         return solicitudAdopcionRepository.save(solicitudAdopcion);
     }
 
