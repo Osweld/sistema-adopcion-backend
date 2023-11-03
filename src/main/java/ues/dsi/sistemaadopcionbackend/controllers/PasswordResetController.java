@@ -32,7 +32,7 @@ public class PasswordResetController {
             return ResponseEntity.badRequest().body("Usuario no existe o no ha podido ser encontrado "+ email);
         }
         String passwordTemporal = emailService.generateTemporaryPassword();
-        passwordTemporal = "Hola23456";
+
         usuario.setPassword(passwordTemporal);
         usuarioService.editPasswordUsuario(usuario);
 
