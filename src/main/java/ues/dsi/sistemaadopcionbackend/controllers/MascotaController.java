@@ -60,12 +60,12 @@ public class MascotaController {
         return new ResponseEntity<>(mascotaService.getAllMascotasByGenero(idGenero,PageRequest.of(page, size)), HttpStatus.OK);
     }
 
-    @GetMapping("/estado-mascota/{idEstadoMascota}")
+    @GetMapping("/estado-mascota")
     @PermitAll()
-    ResponseEntity<Page<Mascota>> getMascotasByEstadoMascotaWithPagination(@PathVariable Long idEstadoMascota,
+    ResponseEntity<Page<Mascota>> getMascotasByEstadoMascotaWithPagination(
                                                                   @RequestParam(name = "page",defaultValue = "0",required = false) int page,
                                                                   @RequestParam(name = "size",defaultValue = "10",required = false) int size){
-        return new ResponseEntity<>(mascotaService.getAllMascotasByEstadoMascota(idEstadoMascota,PageRequest.of(page, size)), HttpStatus.OK);
+        return new ResponseEntity<>(mascotaService.getAllMascotasByEstadoMascota(1L,PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @GetMapping("/{idMascota}")
@@ -98,6 +98,8 @@ public class MascotaController {
                                         @Valid @RequestBody Mascota mascota){
         return new ResponseEntity<>(mascotaService.editMascota(idMascota,mascota),HttpStatus.OK);
     }
+
+
 
     @DeleteMapping("/{idMascota}")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER"})

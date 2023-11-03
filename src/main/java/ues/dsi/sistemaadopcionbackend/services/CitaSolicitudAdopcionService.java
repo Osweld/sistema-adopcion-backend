@@ -1,5 +1,6 @@
 package ues.dsi.sistemaadopcionbackend.services;
 
+import java.security.Principal;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ public interface CitaSolicitudAdopcionService {
     List<CitaSolicitudAdopcion> getAllByFechaCita(Date fechaCita);
     List<CitaSolicitudAdopcion> getAllByEstadoCitaSolicitudId(Long idEstadoCitaSolicitud);
     List<CitaSolicitudAdopcion> getBySolicitudAdopcionId(Long idSolicitudAdopcion);
+    Page<CitaSolicitudAdopcion> getByUsuario(Principal principal, Pageable pageable);
     Boolean getExistsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudId(String fechaCita, Long idHoraCitaSolicitud);
     Boolean getExistsCitaSolicitudAdopcionByFechaCita(String fechaCita);
     Boolean getExistsCitaSolicitudAdopcionByHoraCitaSolicitudId(Long idHoraCitaSolicitud);

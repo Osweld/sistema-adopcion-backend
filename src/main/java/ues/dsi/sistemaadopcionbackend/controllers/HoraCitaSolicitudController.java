@@ -22,13 +22,13 @@ public class HoraCitaSolicitudController {
     }
 
     @GetMapping("")
-    @PermitAll()
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
     ResponseEntity<List<HoraCitaSolicitud>> getAllHorasCitaSolicitud(){
         return new ResponseEntity<>(horaCitaSolicitudService.getAllHorasCitaSolicitud(), HttpStatus.OK);
     }
 
     @GetMapping("/{idHoraCitaSolicitud}")
-    @PermitAll()
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
     ResponseEntity<HoraCitaSolicitud> getHoraCitaSolicitudById(@PathVariable Long idHoraCitaSolicitud){
         return new ResponseEntity<>(horaCitaSolicitudService.getHoraCitaSolicitudById(idHoraCitaSolicitud), HttpStatus.OK);
     }

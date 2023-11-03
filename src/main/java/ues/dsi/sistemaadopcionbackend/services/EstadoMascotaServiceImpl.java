@@ -7,6 +7,7 @@ import ues.dsi.sistemaadopcionbackend.models.entity.EstadoMascota;
 import ues.dsi.sistemaadopcionbackend.models.repository.EstadoMascotaRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EstadoMascotaServiceImpl implements EstadoMascotaService {
@@ -20,7 +21,9 @@ public class EstadoMascotaServiceImpl implements EstadoMascotaService {
     @Override
     @Transactional(readOnly = true)
     public List<EstadoMascota> getAllEstadoMascota() {
-        return estadoMascotaRepository.findAll();
+        return estadoMascotaRepository.findAll().stream()
+                .filter(estadoMascota -> estadoMascota.getId() != 3)
+                .collect(Collectors.toList());
     }
 
     @Override

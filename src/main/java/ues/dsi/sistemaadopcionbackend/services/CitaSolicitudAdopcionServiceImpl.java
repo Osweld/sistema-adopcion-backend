@@ -2,6 +2,7 @@ package ues.dsi.sistemaadopcionbackend.services;
 
 import jakarta.persistence.EntityNotFoundException;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,16 +14,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ues.dsi.sistemaadopcionbackend.exceptions.UniqueValidationException;
-import ues.dsi.sistemaadopcionbackend.models.entity.CitaSolicitudAdopcion;
+import ues.dsi.sistemaadopcionbackend.models.entity.*;
 import ues.dsi.sistemaadopcionbackend.models.repository.CitaSolicitudAdopcionRepository;
+import ues.dsi.sistemaadopcionbackend.models.repository.SolicitudAdopcionRepository;
 
 @Service
 public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionService{
 
     private final CitaSolicitudAdopcionRepository citaSolicitudAdopcionRepository;
+    private final SolicitudAdopcionRepository solicitudAdopcionRepository;
    
-    public CitaSolicitudAdopcionServiceImpl(CitaSolicitudAdopcionRepository citaSolicitudAdopcionRepository) {
+    public CitaSolicitudAdopcionServiceImpl(CitaSolicitudAdopcionRepository citaSolicitudAdopcionRepository, SolicitudAdopcionRepository solicitudAdopcionRepository) {
         this.citaSolicitudAdopcionRepository = citaSolicitudAdopcionRepository;
+        this.solicitudAdopcionRepository = solicitudAdopcionRepository;
     }
 
     @Override
@@ -56,6 +60,12 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
     }
 
     @Override
+    public Page<CitaSolicitudAdopcion> getByUsuario(Principal principal, Pageable pageable) {
+        Usuario usuario = new Usuario(Long.parseLong(principal.getName()));
+        return citaSolicitudAdopcionRepository.getCitaSolicitudAdopcionBySolicitudAdopcion_Usuario(usuario,pageable);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public CitaSolicitudAdopcion getCitaSolicitudAdopcionById(Long idCitaSolicitudAdopcion) {
         return citaSolicitudAdopcionRepository.findById(idCitaSolicitudAdopcion).orElseThrow(() -> new EntityNotFoundException("Cita Solicitud Adopcion no encontrada con el ID proporcionado: "+idCitaSolicitudAdopcion));
@@ -78,7 +88,12 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
         
         if(existsCita)
             throw new UniqueValidationException("Ya existe la cita de solicitud con la fecha y Hora de cita ingresados");
-        
+
+        citaSolicitudAdopcion.setEstadoCitaSolicitud(new EstadoCitaSolicitud(1L));
+
+        SolicitudAdopcion solicitudAdopcion = citaSolicitudAdopcion.getSolicitudAdopcion();
+        solicitudAdopcion.setEstadoSolicitudAdopcion(new EstadoSolicitudAdopcion(4L));
+        citaSolicitudAdopcion.setSolicitudAdopcion(solicitudAdopcionRepository.save(solicitudAdopcion));
         return citaSolicitudAdopcionRepository.save(citaSolicitudAdopcion);
     }
 
