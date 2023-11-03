@@ -1,6 +1,7 @@
 package ues.dsi.sistemaadopcionbackend.controllers;
 
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -70,9 +71,15 @@ public class UsuarioController {
     }
 
     @GetMapping("/username/{username}")
-    @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
+    @PermitAll()
     ResponseEntity<Usuario> findByUsername(@PathVariable String username) {
         return new ResponseEntity<>(usuarioService.getUsuarioByUsername(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/email/{email}")
+    @PermitAll()
+    ResponseEntity<Usuario> findByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(usuarioService.getUsuarioByEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/existsusername/{username}")

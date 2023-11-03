@@ -80,6 +80,14 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     @Transactional(readOnly = true)
+    public Usuario getUsuarioByEmail(String email) {
+        if (email == null)
+            throw new IllegalArgumentException("El argumento email no puede ser nulo");
+        return usuarioRepository.findUsuarioByEmail(email);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Boolean getExistsUsuarioByUsername(String username) {
         if (username == null)
             throw new IllegalArgumentException("El argumento username no puede ser nulo");
@@ -166,6 +174,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 
 
+
+    @Override
+    @Transactional
+    public Usuario editPasswordUsuario(Usuario usuario) {
+        if(usuario == null){
+            throw new IllegalArgumentException("El argumento usuario no puede ser nulo");
+        }
+        
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+        return usuarioRepository.save(usuario);
+    }
 
     @Override
     @Transactional

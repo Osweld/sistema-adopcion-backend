@@ -18,10 +18,12 @@ public interface UsuarioService {
     Usuario getUsuarioById(Long idUsuario,Principal principal);
     Usuario getUsuarioByNumeroDui(String numeroDui);
     Usuario getUsuarioByUsername(String username);
+    Usuario getUsuarioByEmail(String email);
     Boolean getExistsUsuarioByUsername(String username);
     Usuario createUsuario(Usuario usuario);
     Usuario changePassword(ChangePasswordDTO changePasswordDTO, Principal principal);
     Usuario registerUsuario(Usuario usuario);
     Usuario editUsuario(Long idUsuario, UsuarioDTO usuario);
     Usuario deleteUsuarioById(Long idUsuario);
+    Usuario editPasswordUsuario(Usuario usuario);
 }
