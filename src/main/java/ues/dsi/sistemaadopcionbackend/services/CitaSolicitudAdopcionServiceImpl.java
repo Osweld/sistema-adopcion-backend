@@ -92,7 +92,7 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
         citaSolicitudAdopcion.setEstadoCitaSolicitud(new EstadoCitaSolicitud(1L));
 
         SolicitudAdopcion solicitudAdopcion = citaSolicitudAdopcion.getSolicitudAdopcion();
-        solicitudAdopcion.setEstadoSolicitudAdopcion(new EstadoSolicitudAdopcion(4L));
+        solicitudAdopcion.setEstadoSolicitudAdopcion(new EstadoSolicitudAdopcion(5L));
         citaSolicitudAdopcion.setSolicitudAdopcion(solicitudAdopcionRepository.save(solicitudAdopcion));
         return citaSolicitudAdopcionRepository.save(citaSolicitudAdopcion);
     }
