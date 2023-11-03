@@ -7,10 +7,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.exceptions.UniqueValidationException;
+import ues.dsi.sistemaadopcionbackend.models.DTO.ChangePasswordDTO;
 import ues.dsi.sistemaadopcionbackend.models.DTO.UsuarioDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Rol;
 import ues.dsi.sistemaadopcionbackend.models.entity.Usuario;
 import ues.dsi.sistemaadopcionbackend.models.repository.UsuarioRepository;
+
+import java.security.Principal;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService{
@@ -55,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     @Transactional(readOnly = true)
-    public Usuario getUsuarioById(Long idUsuario) {
+    public Usuario getUsuarioById(Long idUsuario,Principal principal) {
         return usuarioRepository.findById(idUsuario).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrada con el ID proporcionado: "+idUsuario));
     }
 
@@ -113,6 +116,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     @Transactional()
+    public Usuario changePassword(ChangePasswordDTO changePasswordDTO, Principal principal) {
+        Long id = Long.parseLong(principal.getName());
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario no encontrada con el ID proporcionado: "+id));
+        if(!passwordEncoder.matches(changePasswordDTO.getOldPassword(),usuario.getPassword())){
+            throw new IllegalArgumentException("Introduzca correctamente su contraseña actual");
+        }
+        usuario.setPassword(passwordEncoder.encode(changePasswordDTO.getNewPassword()));
+        return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    @Transactional()
     public Usuario registerUsuario(Usuario usuario) {
         Rol rol = new Rol(3L);
         usuario.setRol(rol);
@@ -137,7 +152,12 @@ public class UsuarioServiceImpl implements UsuarioService{
             usuarioDB.setNumeroDui(usuario.getNumeroDui());
         }
         if(usuario.getDireccion() != null) usuarioDB.setDireccion(usuario.getDireccion());
-        if(usuario.getEmail() != null) usuarioDB.setEmail(usuario.getEmail());
+        if(usuario.getEmail() != null) {
+            if(usuarioRepository.existsUsuarioByEmail(usuario.getEmail()) && !usuarioDB.getEmail().equals(usuario.getEmail())){
+                throw new UniqueValidationException("Ya existe el usuario con el email ingresado");
+            }
+            usuarioDB.setEmail(usuario.getEmail());
+        }
         if(usuario.getTelefono() != null) usuarioDB.setTelefono(usuario.getTelefono());
         if(usuario.getUsername() != null) {
             if(usuarioRepository.existsUsuarioByUsername(usuario.getUsername()) && !usuarioDB.getUsername().equals(usuario.getUsername())){
@@ -151,6 +171,9 @@ public class UsuarioServiceImpl implements UsuarioService{
 
         return usuarioRepository.save(usuarioDB);
     }
+
+
+
 
     @Override
     @Transactional

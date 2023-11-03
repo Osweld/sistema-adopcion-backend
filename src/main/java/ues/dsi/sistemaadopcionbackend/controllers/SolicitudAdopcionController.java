@@ -9,8 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import ues.dsi.sistemaadopcionbackend.models.DTO.CreateSolicitudAdopcionDTO;
+import ues.dsi.sistemaadopcionbackend.models.DTO.VerificarSolicitudDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.SolicitudAdopcion;
 import ues.dsi.sistemaadopcionbackend.services.SolicitudAdopcionService;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/v1/solicitud-adopcion")
@@ -46,7 +50,7 @@ public class SolicitudAdopcionController {
     }
 
     @GetMapping("/usuario/{idUsuario}")
-    @PermitAll()
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
     ResponseEntity<Page<SolicitudAdopcion>> getSolicitudesAdopcionByUsuarioId(@PathVariable Long idUsuario, 
                                                                         @RequestParam(name = "page",defaultValue = "0",required = false) int page,
                                                                         @RequestParam(name = "size",defaultValue = "10",required = false) int size){
@@ -54,21 +58,21 @@ public class SolicitudAdopcionController {
     }
 
     @GetMapping("/{idSolicitudAdopcion}")
-    @PermitAll()
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
     ResponseEntity<SolicitudAdopcion> getSolicitudAdopcionById(@PathVariable Long idSolicitudAdopcion){
         return new ResponseEntity<>(solicitudAdopcionService.getSolicitudAdopcionById(idSolicitudAdopcion),HttpStatus.OK);
     }
 
     @PostMapping("")
-    @PermitAll()
-    ResponseEntity<SolicitudAdopcion> createSolicitudAdopcion(@Valid @RequestBody SolicitudAdopcion solicitudAdopcion){
-        return new ResponseEntity<>(solicitudAdopcionService.createSolicitudAdopcion(solicitudAdopcion),HttpStatus.CREATED);
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
+    ResponseEntity<SolicitudAdopcion> createSolicitudAdopcion(@Valid @RequestBody CreateSolicitudAdopcionDTO createSolicitudAdopcionDTO, Principal principal){
+        return new ResponseEntity<>(solicitudAdopcionService.createSolicitudAdopcion(createSolicitudAdopcionDTO,principal),HttpStatus.CREATED);
     }
 
-    @PutMapping("/{idSolicitudAdopcion}")
+    @PutMapping("/verificar")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
-    ResponseEntity<SolicitudAdopcion> editSolicitudAdopcion(@PathVariable Long idSolicitudAdopcion,@Valid @RequestBody SolicitudAdopcion solicitudAdopcion){
-        return new ResponseEntity<>(solicitudAdopcionService.editSolicitudAdopcion(idSolicitudAdopcion,solicitudAdopcion),HttpStatus.OK);
+    ResponseEntity<SolicitudAdopcion> verificarSolicitudAdopcion(@Valid @RequestBody VerificarSolicitudDTO verificarSolicitudDTO){
+        return new ResponseEntity<>(solicitudAdopcionService.verificarSolicitudAdopcion(verificarSolicitudDTO),HttpStatus.OK);
     }
 
     @DeleteMapping("/{idSolicitudAdopcion}")
@@ -76,6 +80,21 @@ public class SolicitudAdopcionController {
     ResponseEntity<SolicitudAdopcion> deleteSolicitudAdopcion(@PathVariable Long idSolicitudAdopcion){
         return new ResponseEntity<>(solicitudAdopcionService.deleteSolicitudAdopcionById(idSolicitudAdopcion),HttpStatus.OK);
     }
+
+    @GetMapping("/proceso")
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
+    ResponseEntity<SolicitudAdopcion> getSolicitudAdopcionByUsuarioAndEstadoEnProceso(Principal principal){
+        return new ResponseEntity<>(solicitudAdopcionService.getSolicitudByUsuarioAndEstadoSolicitud(principal),HttpStatus.OK);
+    }
+
+    @GetMapping("/rechazadas")
+    @Secured({"ROLE_ADMIN","ROLE_MANAGER","ROLE_USER"})
+    ResponseEntity<Page<SolicitudAdopcion>> getSolicitudesAdopcionByEstadoSolicitudesAdopcionAndUsuario(Principal principal,
+                                                                                                @RequestParam(name = "page",defaultValue = "0",required = false) int page,
+                                                                                                @RequestParam(name = "size",defaultValue = "10",required = false) int size){
+        return new ResponseEntity<>(solicitudAdopcionService.getSolicitudAdopcionByUsuarioAndEStadoAdopcion(principal, PageRequest.of(page, size)),HttpStatus.OK);
+    }
+
 
 
 }

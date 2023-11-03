@@ -39,13 +39,8 @@ public class AuthController {
             return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
 
         }
-        System.out.println("header: "+header);
-        System.out.println("id: "+jwtService.getId(header));
-        System.out.println("id: "+jwtService.getUsername(header));
-        System.out.println("id: "+jwtService.getAuthorities(header));
 
-
-
+        
         AuthUser user = new AuthUser( jwtService.getId(header),jwtService.getUsername(header),"",true,true,true,true,jwtService.getAuthorities(header));
         String token = jwtService.refreshToken(user);
         body.put("user",user);
