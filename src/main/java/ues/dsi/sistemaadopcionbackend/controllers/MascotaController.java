@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ues.dsi.sistemaadopcionbackend.models.DTO.EstadoMascotaDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Foto;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
 import ues.dsi.sistemaadopcionbackend.services.MascotaService;
@@ -111,6 +112,12 @@ public class MascotaController {
     @PermitAll()
     ResponseEntity<List<Foto>> getFotosByMascotaById(@PathVariable Long idMascota){
         return new ResponseEntity<>(mascotaService.getMascotaPhotos(idMascota),HttpStatus.OK);
+    }
+
+    @GetMapping("/estadisticas")
+    @PermitAll()
+    ResponseEntity<List<EstadoMascotaDTO>> getEstadisticas(){
+        return new ResponseEntity<>(mascotaService.getEstadisticas(),HttpStatus.OK);
     }
 
 }

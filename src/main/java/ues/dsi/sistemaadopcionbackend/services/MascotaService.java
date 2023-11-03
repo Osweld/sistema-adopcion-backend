@@ -3,6 +3,7 @@ package ues.dsi.sistemaadopcionbackend.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+import ues.dsi.sistemaadopcionbackend.models.DTO.EstadoMascotaDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Foto;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
 
@@ -23,5 +24,6 @@ public interface MascotaService {
     List<Foto> saveMascotaPhotos(Long idMascota,MultipartFile[] multipartFiles) throws IOException;
     Mascota saveMascotaPhotoPerfil(Long idMascota,MultipartFile multipartFile) throws IOException;
     List<Foto> getMascotaPhotos(Long idMascota);
+    List<EstadoMascotaDTO> getEstadisticas();
 
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ues.dsi.sistemaadopcionbackend.cloudinary.FileUpload;
+import ues.dsi.sistemaadopcionbackend.models.DTO.EstadoMascotaDTO;
 import ues.dsi.sistemaadopcionbackend.models.entity.Foto;
 import ues.dsi.sistemaadopcionbackend.models.entity.Mascota;
 import ues.dsi.sistemaadopcionbackend.models.entity.EstadoMascota;
@@ -180,5 +181,19 @@ public class MascotaServiceImpl implements MascotaService{
         if (idMascota == null)
             throw new IllegalArgumentException("El argumento idMascota no puede ser nulo");
         return fotoRepository.findAllByMascotaId(idMascota);
+    }
+
+    @Override
+    public List<EstadoMascotaDTO> getEstadisticas() {
+        List<Object[]> resultados = mascotaRepository.countMascotasByEstadoMascota();
+        List<EstadoMascotaDTO> lista = new ArrayList<>();
+
+        for (Object[] resultado : resultados) {
+            EstadoMascotaDTO estadoMascotaDTO = new EstadoMascotaDTO();
+            estadoMascotaDTO.setEstado((String) resultado[0]);
+            estadoMascotaDTO.setCantidad(( (Long) resultado[1]));
+            lista.add(estadoMascotaDTO);
+        }
+        return lista;
     }
 }
