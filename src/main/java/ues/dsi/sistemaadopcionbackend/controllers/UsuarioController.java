@@ -1,6 +1,7 @@
 package ues.dsi.sistemaadopcionbackend.controllers;
 
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
