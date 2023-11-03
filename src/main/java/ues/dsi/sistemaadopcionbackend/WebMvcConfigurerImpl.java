@@ -12,7 +12,7 @@ public class WebMvcConfigurerImpl implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://dsi-frontend.web.app")
+                .allowedOrigins("http://dsi-frontend.web.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
     }
 
