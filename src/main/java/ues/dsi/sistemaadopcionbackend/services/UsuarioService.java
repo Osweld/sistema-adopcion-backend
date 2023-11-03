@@ -25,4 +25,5 @@ public interface UsuarioService {
     Usuario registerUsuario(Usuario usuario);
     Usuario editUsuario(Long idUsuario, UsuarioDTO usuario);
     Usuario deleteUsuarioById(Long idUsuario);
+    Usuario editPasswordUsuario(Usuario usuario);
 }
