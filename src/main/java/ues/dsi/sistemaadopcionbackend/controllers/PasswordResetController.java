@@ -17,12 +17,10 @@ public class PasswordResetController {
 
     private final UsuarioService usuarioService;
     private final EmailService emailService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
-    public PasswordResetController(UsuarioService usuarioService, EmailService emailService, BCryptPasswordEncoder passwordEncoder) {
+    public PasswordResetController(UsuarioService usuarioService, EmailService emailService) {
         this.usuarioService = usuarioService;
         this.emailService = emailService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/request")
@@ -34,21 +32,9 @@ public class PasswordResetController {
             return ResponseEntity.badRequest().body("Usuario no existe o no ha podido ser encontrado "+ email);
         }
         String passwordTemporal = emailService.generateTemporaryPassword();
-        UsuarioDTO usuarioDto = new UsuarioDTO();
-        Long idUsuario = usuario.getId();
-
-        usuarioDto.setNombres(usuario.getNombres());
-        usuarioDto.setApellidos(usuario.getApellidos());
-        usuarioDto.setEmail(usuario.getEmail());
-        usuarioDto.setNumeroDui(usuario.getNumeroDui());
-        usuarioDto.setTelefono(usuario.getTelefono());
-        usuarioDto.setFechaNacimiento(usuario.getFechaNacimiento());
-        usuarioDto.setUsername(usuario.getUsername());
-        usuarioDto.setDireccion(usuario.getDireccion());
-        usuarioDto.setGenero(usuario.getGenero());
-        usuarioDto.setRol(usuario.getRol());
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        usuarioService.editUsuario(idUsuario, usuarioDto);
+        passwordTemporal = "Hola23456";
+        usuario.setPassword(passwordTemporal);
+        usuarioService.editPasswordUsuario(usuario);
 
         // Enviar el correo electrónico
         emailService.sendPasswordResetEmail(usuario.getEmail(), passwordTemporal);

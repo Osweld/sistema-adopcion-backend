@@ -154,6 +154,18 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     @Override
     @Transactional
+    public Usuario editPasswordUsuario(Usuario usuario) {
+        if(usuario == null){
+            throw new IllegalArgumentException("El argumento usuario no puede ser nulo");
+        }
+        
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
+        return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    @Transactional
     public Usuario deleteUsuarioById(Long idUsuario) {
         if (idUsuario == null) {
             throw new IllegalArgumentException("El argumento idUsuario no puede ser nulo");
