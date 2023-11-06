@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ues.dsi.sistemaadopcionbackend.exceptions.UniqueValidationException;
 import ues.dsi.sistemaadopcionbackend.models.entity.*;
 import ues.dsi.sistemaadopcionbackend.models.repository.CitaSolicitudAdopcionRepository;
+import ues.dsi.sistemaadopcionbackend.models.repository.EstadoCitaSolicitudRepository;
 import ues.dsi.sistemaadopcionbackend.models.repository.SolicitudAdopcionRepository;
 
 @Service
@@ -23,10 +24,12 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
 
     private final CitaSolicitudAdopcionRepository citaSolicitudAdopcionRepository;
     private final SolicitudAdopcionRepository solicitudAdopcionRepository;
+    private final EstadoCitaSolicitudRepository estadoCitaSolicitudRepository;
    
-    public CitaSolicitudAdopcionServiceImpl(CitaSolicitudAdopcionRepository citaSolicitudAdopcionRepository, SolicitudAdopcionRepository solicitudAdopcionRepository) {
+    public CitaSolicitudAdopcionServiceImpl(CitaSolicitudAdopcionRepository citaSolicitudAdopcionRepository, SolicitudAdopcionRepository solicitudAdopcionRepository, EstadoCitaSolicitudRepository estadoCitaSolicitudRepository) {
         this.citaSolicitudAdopcionRepository = citaSolicitudAdopcionRepository;
         this.solicitudAdopcionRepository = solicitudAdopcionRepository;
+        this.estadoCitaSolicitudRepository = estadoCitaSolicitudRepository;
     }
 
     @Override
@@ -77,17 +80,24 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
         
         Date fechaCita = citaSolicitudAdopcion.getFechaCita();
         Long idHoraCita = citaSolicitudAdopcion.getHoraCitaSolicitud().getId();
-        
+        EstadoCitaSolicitud estadoCitaSolicitud = estadoCitaSolicitudRepository.findByEstado("PROGRAMADA");
+       
         if (fechaCita == null)
             throw new IllegalArgumentException("El argumento fechaCita no puede ser nulo");
 
-         if (idHoraCita == null)
+        if (idHoraCita == null)
             throw new IllegalArgumentException("El argumento idHoraCita no puede ser nulo");
         
-        Boolean existsCita = citaSolicitudAdopcionRepository.existsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudId(fechaCita, idHoraCita);
-        
-        if(existsCita)
-            throw new UniqueValidationException("Ya existe la cita de solicitud con la fecha y Hora de cita ingresados");
+        if (estadoCitaSolicitud == null)
+            throw new IllegalArgumentException("El argumento estado Cita de solicitud no puede ser nulo");
+    
+        Boolean existsCitaProgramada = citaSolicitudAdopcionRepository.existsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudIdAndEstadoCitaSolicitudId(fechaCita, idHoraCita, estadoCitaSolicitud.getId());
+         
+        if(existsCitaProgramada)
+            throw new UniqueValidationException("Ya existe la cita de solicitud programada con la fecha y Hora de cita ingresados");
+
+        if (fechaCita.before(new Date())) 
+            throw new IllegalArgumentException("El argumento fecha Cita de la solicitud debe ser una fecha mayor a la del día de hoy");
 
         citaSolicitudAdopcion.setEstadoCitaSolicitud(new EstadoCitaSolicitud(1L));
 
@@ -104,24 +114,25 @@ public class CitaSolicitudAdopcionServiceImpl implements CitaSolicitudAdopcionSe
             throw new IllegalArgumentException("Los argumentos idCitaSolicitudAdopcion y citaSolicitudAdopcion no pueden ser nulos");
         }
         CitaSolicitudAdopcion citaSolicitudAdopcionDB = citaSolicitudAdopcionRepository.findById(idCitaSolicitudAdopcion).orElseThrow(() -> new EntityNotFoundException("Cita Solicitud Adopcion no encontrada con el ID proporcionado: "+idCitaSolicitudAdopcion));
-
+        EstadoCitaSolicitud estadoCitaSolicitud = estadoCitaSolicitudRepository.findByEstado("PROGRAMADA");
+       
         if(citaSolicitudAdopcion.getMotivoCita() != null) citaSolicitudAdopcionDB.setMotivoCita(citaSolicitudAdopcion.getMotivoCita());
         if(citaSolicitudAdopcion.getDescripcion() != null) citaSolicitudAdopcionDB.setDescripcion(citaSolicitudAdopcion.getDescripcion());
         if(citaSolicitudAdopcion.getFechaCita() != null) citaSolicitudAdopcionDB.setFechaCita(citaSolicitudAdopcion.getFechaCita());
 
-        if (citaSolicitudAdopcion.getFechaCita() != null || citaSolicitudAdopcion.getHoraCitaSolicitud() != null){
+        if (citaSolicitudAdopcion.getFechaCita() != null || citaSolicitudAdopcion.getHoraCitaSolicitud() != null || estadoCitaSolicitud != null){
             Date fechaCita = citaSolicitudAdopcion.getFechaCita();
             Long idHoraCita = citaSolicitudAdopcion.getHoraCitaSolicitud().getId();
-            Boolean existsCita = citaSolicitudAdopcionRepository.existsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudId(fechaCita, idHoraCita);
-        
-            if(existsCita){
-                throw new UniqueValidationException("Ya existe la cita de solicitud con la fecha y Hora de cita ingresados");
+            Boolean existsCitaProgramada = citaSolicitudAdopcionRepository.existsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudIdAndEstadoCitaSolicitudId(fechaCita, idHoraCita, estadoCitaSolicitud.getId());
+            
+            if(existsCitaProgramada){
+                throw new UniqueValidationException("Ya existe la cita de solicitud programada con la fecha y Hora de cita ingresados");
             } else {
                 citaSolicitudAdopcionDB.setFechaCita(citaSolicitudAdopcion.getFechaCita());
                 citaSolicitudAdopcionDB.setHoraCitaSolicitud(citaSolicitudAdopcion.getHoraCitaSolicitud());
             }
         } else {
-            throw new IllegalArgumentException("El argumento fechaCita o hora de cita no puede ser nulo");
+            throw new IllegalArgumentException("El argumento fechaCita, hora de cita o estado de Cita no puede ser nulo");
         }
 
         if(citaSolicitudAdopcion.getEstadoCitaSolicitud() != null) citaSolicitudAdopcionDB.setEstadoCitaSolicitud(citaSolicitudAdopcion.getEstadoCitaSolicitud());

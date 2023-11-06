@@ -17,7 +17,10 @@ public interface CitaSolicitudAdopcionRepository extends JpaRepository<CitaSolic
     List<CitaSolicitudAdopcion> findAllByEstadoCitaSolicitudId(Long idEstadoCitaSolicitud);
     List<CitaSolicitudAdopcion> findBySolicitudAdopcionId(Long idSolicitudAdopcion);
     Page<CitaSolicitudAdopcion> getCitaSolicitudAdopcionBySolicitudAdopcion_Usuario(Usuario usuario, Pageable pageable);
+    //CitaSolicitudAdopcion findCitaSolicitudAdopcionBySolicitudAdopcionId(Long idSolicitudAdopcion);
+    Boolean existsCitaSolicitudAdopcionBySolicitudAdopcionId(Long idSolicitudAdopcion);
     Boolean existsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudId(Date fechaCita, Long idHoraCitaSolicitud);
+    Boolean existsCitaSolicitudAdopcionByFechaCitaAndHoraCitaSolicitudIdAndEstadoCitaSolicitudId(Date fechaCita, Long idHoraCitaSolicitud, Long idEstadoCitaSolicitud);
     Boolean existsCitaSolicitudAdopcionByFechaCita(Date fechaCita);
     Boolean existsCitaSolicitudAdopcionByHoraCitaSolicitudId(Long idHoraCitaSolicitud);
 }
