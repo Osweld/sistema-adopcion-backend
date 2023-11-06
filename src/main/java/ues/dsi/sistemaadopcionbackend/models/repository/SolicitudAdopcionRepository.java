@@ -19,6 +19,8 @@ public interface SolicitudAdopcionRepository extends JpaRepository<SolicitudAdop
     Page<SolicitudAdopcion> findAllByUsuarioAndEstadoSolicitudAdopcion(Usuario usuario,EstadoSolicitudAdopcion estadoSolicitudAdopcion, Pageable pageable);
     Optional<SolicitudAdopcion> getSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(Usuario usuario,EstadoSolicitudAdopcion estadoSolicitudAdopcion);
     Boolean existsSolicitudAdopcionByUsuarioAndEstadoSolicitudAdopcion(Usuario usuario, EstadoSolicitudAdopcion estadoSolicitudAdopcion);
+    Boolean existsSolicitudAdopcionByMascotaId(Long idMascota);
+    List<SolicitudAdopcion> findAllByMascotaId(Long idMascota);
     //List<SolicitudAdopcion> getSolicitudAdopcionByEstadoSolicitudAdopcion
 
 }
