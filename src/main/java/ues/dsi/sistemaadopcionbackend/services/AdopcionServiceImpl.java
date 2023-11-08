@@ -107,42 +107,6 @@ public class AdopcionServiceImpl implements AdopcionService{
         mascota.setEstadoMascota(new EstadoMascota(1L));
         mascotaRepository.save(mascota);
         adopcionRepository.delete(adopcion);
-        
-        Long mascotaId = adopcion.getMascota().getId();
-        Boolean existsSolicitudesMascota = solicitudAdopcionRepository.existsSolicitudAdopcionByMascotaId(mascotaId);
-        
-        if(existsSolicitudesMascota){
-            List<SolicitudAdopcion> solicitudesAdopcionMascota = solicitudAdopcionRepository.findAllByMascotaId(mascotaId);
-            if(solicitudesAdopcionMascota == null)
-                throw new IllegalArgumentException("La lista de solicitudes por la mascota no puede ser nula");
-            
-            for (SolicitudAdopcion solicitudAdopcion : solicitudesAdopcionMascota) {
-                Long idEstadoSolicitud = solicitudAdopcion.getEstadoSolicitudAdopcion().getId();
-                
-                if (idEstadoSolicitud == 5L) {
-                    Long idSolicitud = solicitudAdopcion.getId();
-                    Boolean existsCita = citaSolicitudAdopcionRepository.existsCitaSolicitudAdopcionBySolicitudAdopcionId(idSolicitud);
-
-                    if (existsCita){
-                        List<CitaSolicitudAdopcion> citasSolicitud = citaSolicitudAdopcionRepository.findBySolicitudAdopcionId(idSolicitud);
-                        
-                        for (CitaSolicitudAdopcion citaSolicitud : citasSolicitud) {
-                            if (citaSolicitud.getFechaCita().after(new Date()) && citaSolicitud.getEstadoCitaSolicitud().getId().equals(5L)){
-                                citaSolicitud.setDescripcion("Se habilita la cita de nuevo");
-                                citaSolicitud.setEstadoCitaSolicitud(new EstadoCitaSolicitud(1L));
-                                citaSolicitudAdopcionRepository.save(citaSolicitud);
-                            }
-                        }
-                    }
-
-                } else if (idEstadoSolicitud == 2L){
-                    solicitudAdopcion.setComentarioGestionSolicitud("");
-                    solicitudAdopcion.setEstadoSolicitudAdopcion(new EstadoSolicitudAdopcion(3L));
-                    solicitudAdopcionRepository.save(solicitudAdopcion);
-                }
-            }
-        }
-
         return adopcion;
     }
 
