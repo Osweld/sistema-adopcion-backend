@@ -81,7 +81,7 @@ public class MascotaController {
         return new ResponseEntity<>(mascotaService.createMascota(mascota),HttpStatus.CREATED);
     }
 
-    @PostMapping("fotos/{idMascota}")
+    @PostMapping("fotos-upload/{idMascota}")
     @Secured({"ROLE_ADMIN","ROLE_MANAGER"})
     ResponseEntity<List<Foto>> uploadPhotos(@PathVariable Long idMascota,@RequestPart(name = "imagenes") MultipartFile[] multipartFiles) throws IOException {
         return new ResponseEntity<>(mascotaService.saveMascotaPhotos(idMascota,multipartFiles),HttpStatus.CREATED);
